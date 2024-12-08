@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:8080/api/v1/auth';
 
+
 // Register Fonksiyonu
 export const register = async (userData) => {
   try {
@@ -28,7 +29,6 @@ export const authenticate = async (credentials) => {
     return response.data; // Backend'den gelen AuthenticationResponse (JWT Token dahil)
   } catch (error) {
     console.error('Authentication failed:', error.response?.data || error.message);
-    console.error("Authentication failed", error);
     throw new Error(error.response?.data?.message || 'Authentication failed');
   }
 };
