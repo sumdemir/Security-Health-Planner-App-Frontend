@@ -3,20 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import { Form, Input, Button, message } from 'antd';
 import { authenticate } from '../api/auth';
 
-
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [api, contextHolder] = message.useMessage();
 
   const handleLogin = async (values) => {
+    if (loading) return;
     setLoading(true);
     try {
       const response = await authenticate(values);
       localStorage.setItem('authToken', response.token);
-      message.success('Login successful!');
-      navigate('/Dashboard'); // Yönlendirme
+      api.success('Login successful!');
+      navigate('/pages/Dashboard');
     } catch (err) {
-      message.error('Login failed: ' + err.message);
+      api.error('Login failed: ' + err.message);
     } finally {
       setLoading(false);
     }
@@ -24,6 +25,7 @@ const Login = () => {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      {contextHolder}
       <Form
         name="login"
         layout="vertical"

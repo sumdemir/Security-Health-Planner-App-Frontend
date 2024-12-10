@@ -26,7 +26,7 @@ export const authenticate = async (credentials) => {
         'Content-Type': 'application/json',
       },
     });
-    return response.data; // Backend'den gelen AuthenticationResponse (JWT Token dahil)
+    return response.data;
   } catch (error) {
     console.error('Authentication failed:', error.response?.data || error.message);
     throw new Error(error.response?.data?.message || 'Authentication failed');
