@@ -32,3 +32,18 @@ export const authenticate = async (credentials) => {
     throw new Error(error.response?.data?.message || 'Authentication failed');
   }
 };
+
+// Forgot Password Fonksiyonu
+export const forgotPassword = async (email) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/forgot-password`, { email }, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Forgot password failed:', error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || 'Forgot password failed');
+  }
+};

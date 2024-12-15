@@ -2,7 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard/Dashboard';
-import ErrorBoundary from 'antd/es/alert/ErrorBoundary'; // ErrorBoundary düzgün eklenmiş.
+import ErrorBoundary from 'antd/es/alert/ErrorBoundary';
+import ForgotPassword from './pages/ForgotPassword';
 
 function App() {
   return (
@@ -17,6 +18,10 @@ function App() {
           
           {/* Dashboard sayfası */}
           <Route path="/pages/Dashboard" element={<Dashboard />} />
+
+          {/* Forgot Password sayfası */}
+          <Route path="/ForgotPassword" element={<ForgotPassword />} />
+          
         </Routes>
       </Router>
     </ErrorBoundary>

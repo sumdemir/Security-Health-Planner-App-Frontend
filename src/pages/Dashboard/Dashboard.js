@@ -12,22 +12,24 @@ const Dashboard = () => {
         </div>
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
           <Menu.Item key="1">Home</Menu.Item>
-          <Menu.Item key="2">Profile</Menu.Item>
-          <Menu.Item key="3">Settings</Menu.Item>
-          <Menu.Item key="4">Logout</Menu.Item>
+          <Menu.Item key="3">Dietitians</Menu.Item>
+          <Menu.Item key="4">Trainers</Menu.Item>
+          <Menu.Item key="5">Logout</Menu.Item>
         </Menu>
       </Sider>
       <Layout>
-        <Header style={{ background: '#fff', padding: 0, textAlign: 'center', fontSize: '24px' }}>
-          Welcome to Dashboard
-        </Header>
+        
         <Content style={{ margin: '16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
             <Breadcrumb.Item>Home</Breadcrumb.Item>
             <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
           </Breadcrumb>
+
           <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-            This is the dashboard content.
+            <Header style={{ background: '#fff', padding: 0, textAlign: 'center', fontSize: '24px' }}>
+              CREATE YOUR PLANS
+            </Header>
+
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>My Dashboard ©2024 Created with Ant Design</Footer>
