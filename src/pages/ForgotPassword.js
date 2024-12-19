@@ -1,64 +1,64 @@
 import React, { useState } from "react";
-import { forgotPassword, resetPassword, updatePassword } from '../api/auth';
+import { useNavigate } from "react-router-dom";
+import { forgotPassword, updatePassword } from '../api/auth';
+import { message } from 'antd';
 
 const ForgotPassword = () => {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const [api, contextHolder] = message.useMessage();
 
   const handleForgotPassword = async (e) => {
     e.preventDefault();
-    setMessage("");
-    setError("");
-
+    setLoading(true);
     try {
       const response = await forgotPassword(email);
-
       if (response === "Password reset instructions have been sent if the email exists.") {
-        setMessage("Email found. Proceed to reset your password.");
-        setStep(2); // Şifre yenileme adımına geç
+        api.success("Email found. Proceed to reset your password.");
+        setStep(2);
       } else {
-        setError("This email is not registered in our system.");
+        api.error("This email is not registered in our system.");
       }
     } catch (err) {
       console.error("Error:", err.message);
-      setError("An unexpected error occurred. Please try again later.");
+      api.error("An unexpected error occurred. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleUpdatePassword = async (e) => {
     e.preventDefault();
-    setMessage("");
-    setError("");
-
     if (newPassword !== confirmPassword) {
-      setError("Passwords do not match.");
+      api.error("Passwords do not match.");
       return;
     }
 
+    setLoading(true);
     try {
       const response = await updatePassword(email, newPassword);
       if (response === "Password has been successfully updated.") {
-        setMessage("Your password has been successfully updated.");
-        setStep(1); // İşlem tamamlandı, ilk adıma dön
-        setEmail("");
-        setNewPassword("");
-        setConfirmPassword("");
+        api.success("Your password has been successfully updated. Redirecting to login...");
+        setTimeout(() => navigate("/login"), 2000);
       } else {
-        setError("Password update failed. Please try again.");
+        api.error("Password update failed. Please try again.");
       }
     } catch (err) {
       console.error("Error:", err.message);
-      setError("An unexpected error occurred. Please try again later.");
+      api.error("An unexpected error occurred. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div style={{ maxWidth: "400px", margin: "0 auto", padding: "20px" }}>
-      <h2>{step === 1 ? "Forgot Password" : "Update Password"}</h2>
+      {contextHolder}
+      <h2 style={{ textAlign: "center" }}>{step === 1 ? "Forgot Password" : "Update Password"}</h2>
       {step === 1 && (
         <form onSubmit={handleForgotPassword}>
           <div style={{ marginBottom: "10px" }}>
@@ -89,6 +89,7 @@ const ForgotPassword = () => {
               borderRadius: "4px",
               cursor: "pointer",
             }}
+            disabled={loading}
           >
             Next
           </button>
@@ -141,13 +142,12 @@ const ForgotPassword = () => {
               borderRadius: "4px",
               cursor: "pointer",
             }}
+            disabled={loading}
           >
             Update Password
           </button>
         </form>
       )}
-      {message && <p style={{ color: "green", marginTop: "10px" }}>{message}</p>}
-      {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
     </div>
   );
 };
