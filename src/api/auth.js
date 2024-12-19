@@ -47,3 +47,31 @@ export const forgotPassword = async (email) => {
     throw new Error(error.response?.data?.message || 'Forgot password failed');
   }
 };
+
+// Reset Password Fonksiyonu
+export const resetPassword = async (email, newPassword) => {
+  const response = await fetch("/api/reset-password", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, newPassword }),
+  });
+  return response.json();
+};
+
+//Update Password Fonksiyonu
+export const updatePassword = async (email, newPassword) => {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/update-password`, {
+      email,
+      newPassword,
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Update password failed:', error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || 'Update password failed');
+  }
+};
