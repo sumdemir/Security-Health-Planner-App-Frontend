@@ -14,7 +14,7 @@ const Dashboard = () => {
 
   const handleLogout = () => {
     setIsModalVisible(false);
-    navigate('/login'); // Login sayfasına yönlendirme
+    navigate('/login');
   };
 
   const handleCancel = () => {
@@ -28,7 +28,7 @@ const Dashboard = () => {
           Health Planner
         </div>
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-          <Menu.Item key="1" onClick={() => navigate('/Home')}>Home</Menu.Item>
+          <Menu.Item key="1" onClick={() => navigate('/Home')}> Home</Menu.Item>
           <Menu.Item key="2" onClick={() => navigate('/DietPlans')}>Diet Lists</Menu.Item>
           <Menu.Item key="3" onClick={() => navigate('/Dietitians')}>Dietitians</Menu.Item>
           <Menu.Item key="4" onClick={() => navigate('/Trainers')}>Trainers</Menu.Item>
@@ -46,7 +46,7 @@ const Dashboard = () => {
             <Header style={{ background: '#fff', padding: 0, textAlign: 'center', fontSize: '24px' }}>
               CREATE YOUR PLANS
             </Header>
-            {/* Sayfa içerikleri burada gelecek */}
+            <div> DİET LİSTS </div>
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>My Dashboard ©2024 Created with Ant Design</Footer>

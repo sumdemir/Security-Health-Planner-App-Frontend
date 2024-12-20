@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8080/api/dietplan/getDietPlan';
+const API_BASE_URL = 'http://localhost:8080/api/dietplan';
 
 
 export const getDietPlan = async (clientId, dietitianId) => {
@@ -21,3 +21,5 @@ export const getDietPlan = async (clientId, dietitianId) => {
     throw new Error(error.response?.data || 'Diyet planı alınırken bir hata oluştu.');
   }
 };
+
+
