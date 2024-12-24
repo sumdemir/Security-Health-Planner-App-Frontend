@@ -6,18 +6,14 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [authToken, setAuthToken] = useState(localStorage.getItem('authToken') || null);
-  const [userId, setuserId] = useState(localStorage.getItem('userId') || null);
-
+  
   const login = async (credentials) => {
     try {
       const response = await authenticate(credentials);
+      console.log('response:', response);
       setAuthToken(response.token);
-      setuserId(response.userId);
-      localStorage.setItem('authToken', response.token);
-      localStorage.setItem('userId', response.userId);
-      console.log('Giriş başarılı:', response.userId);
-      console.log('Giriş başarılı:', response.authToken);
-      return response; // Giriş başarılı olduğunda döndür
+      setuserId(response.userid);
+      return response;
     } catch (error) {
       throw error; // Hata durumunu çağıran tarafa ilet
     }

@@ -2,15 +2,27 @@ import React, { useState } from 'react';
 import { Layout, Menu, Breadcrumb, Modal, Select, InputNumber, Button, Form , message} from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { update } from '../../api/client';
-
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Option } = Select;
 
 const Dashboard = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
     const navigate = useNavigate();
     const [form] = Form.useForm();
+    const [api, contextHolder] = message.useMessage();
+
+
+    useEffect(() => {
+        const userId = localStorage.getItem('bitirmeuserid');
+        const authToken = localStorage.getItem('authToken');
+        if (!userId || !authToken) {
+            navigate('/login');
+        }
+    }, [navigate]);
 
     const showLogoutConfirm = () => {
         setIsModalVisible(true);
@@ -18,6 +30,8 @@ const Dashboard = () => {
 
     const handleLogout = () => {
         setIsModalVisible(false);
+        localStorage.removeItem('bitirmeuserid');
+        localStorage.removeItem('authToken');
         navigate('/login');
     };
 
@@ -27,24 +41,52 @@ const Dashboard = () => {
 
     const handleFormSubmit = async (values) => {
         try {
-          // Convert medicalConditions array to a comma-separated string
-          values.medicalConditions = values.medicalConditions.join(', '); // Join array items into a string
-          
-          const response = await update(values, localStorage.getItem('authToken')); // Pass updated values
-          message.success('Profil başarıyla kaydedildi!');
-          console.log('Response:', response);
+            const userId = localStorage.getItem('bitirmeuserid');
+            const authToken = localStorage.getItem('authToken');
+
+            const medicalConditionsString = values.medicalConditions
+            ? values.medicalConditions.join(', ')
+            : '';
+
+            if (!userId || !authToken) {
+                message.error('Kullanıcı kimlik bilgileri eksik!');
+                return;
+            }
+
+            // Güncelleme için gerekli payload
+            const payload = {
+                ...values,
+                medicalConditions: medicalConditionsString,
+                userid: parseInt(userId), // LocalStorage'dan gelen userId string olduğu için parse ediyoruz
+            };
+
+            const response = await update(payload, authToken);
+            
+            if (response && response.status === 200) {
+                api.success('Profile updated successfully.');
+            } else {
+                const errorMsg = response?.data?.message || 'Profil güncellenirken bir hata oluştu.';
+                api.error(errorMsg);
+            }
         } catch (error) {
-          message.error('Profil kaydedilirken bir hata oluştu.');
-          console.error('Error:', error);
+            console.error('Error:', error.message);
+            message.error('Profil güncellenirken bir hata oluştu.');
         }
-      };
+    };
+
+    const handleSuccessOk = () => {
+        setIsSuccessModalVisible(false);
+        navigate('/ChooseDietitians');
+    };
 
     return (
+    
         <Layout style={{ minHeight: '100vh' }}>
             <Sider>
                 <div style={{ color: 'white', textAlign: 'center', padding: '16px', fontSize: '18px' }}>
                     Health Planner
                 </div>
+                {contextHolder}
                 <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                     <Menu.Item key="1" onClick={() => navigate('/Home')}>Home</Menu.Item>
                     <Menu.Item key="2" onClick={() => navigate('/DietPlans')}>Diet Lists</Menu.Item>
@@ -203,6 +245,15 @@ const Dashboard = () => {
             >
                 <p>Are you sure you want to log out?</p>
             </Modal>
+            <Modal
+                title="Success"
+                visible={isSuccessModalVisible}
+                onOk={handleSuccessOk}
+                onCancel={() => setIsSuccessModalVisible(false)}
+            >
+                <p>Profile saved successfully!</p>
+            </Modal>
+
         </Layout>
     );
 };

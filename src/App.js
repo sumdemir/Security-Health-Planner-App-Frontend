@@ -9,6 +9,7 @@ import Home from './pages/Dashboard/Home';
 import Dietitians from './pages/Dashboard/Dietitians';
 import Trainers from './pages/Dashboard/Trainers';
 import DietPlanning from './pages/Dashboard/DietPlanning';
+import ChooseDietitians from './pages/Dashboard/ChooseDietitians';
 import './App.css';
 
 
@@ -26,6 +27,8 @@ function App() {
           <Route path = "/Dietitians" element = {<Dietitians />} />
           <Route path = "/Trainers" element = {<Trainers />} />
           <Route path= "/DietPlanning" element = {<DietPlanning />} />
+          <Route path="/ChooseDietitians" element={<ChooseDietitians/>} />
+
           
         </Routes>
       </Router>

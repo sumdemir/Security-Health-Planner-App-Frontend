@@ -21,11 +21,16 @@ export const register = async (userData) => {
 // Authenticate (Login) Fonksiyonu
 export const authenticate = async (credentials) => {
   try {
+    
     const response = await axios.post(`${API_BASE_URL}/authenticate`, credentials, {
+      
       headers: {
         'Content-Type': 'application/json',
       },
     });
+    console.log('response:', response);
+    localStorage.setItem('authToken', response.data.token);
+    localStorage.setItem('bitirmeuserid', response.data.userid);
     return response.data;
   } catch (error) {
     console.error('Authentication failed:', error.response?.data || error.message);
