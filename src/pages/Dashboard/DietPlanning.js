@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Layout, Menu, Breadcrumb, Modal, Select, InputNumber, Button, Form } from 'antd';
+import { Layout, Menu, Breadcrumb, Modal, Select, InputNumber, Button, Form , message} from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { update } from '../../api/client';
+
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Option } = Select;
@@ -23,9 +25,29 @@ const Dashboard = () => {
         setIsModalVisible(false);
     };
 
-    const handleFormSubmit = (values) => {
-        console.log('Form Values:', values);
-    };
+    const handleFormSubmit = async (values) => {
+        try {
+          // Convert medicalConditions array to a comma-separated string
+          values.medicalConditions = values.medicalConditions.join(', '); // Join array items into a string
+
+          const userId = localStorage.getItem('userId'); 
+
+            if (!userId) {
+                message.error('User is not logged in.');
+                return;
+            }
+
+            // Add userId to form data
+            values.userId = userId;
+          
+          const response = await update(values, localStorage.getItem('authToken')); // Pass updated values
+          message.success('Profil başarıyla kaydedildi!');
+          console.log('Response:', response);
+        } catch (error) {
+          message.error('Profil kaydedilirken bir hata oluştu.');
+          console.error('Error:', error);
+        }
+      };
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
@@ -50,7 +72,7 @@ const Dashboard = () => {
 
                     <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                         <Header style={{ background: '#fff', padding: 0, textAlign: 'center', fontSize: '24px' }}>
-                           PROFILE INFORMATION
+                          FIRST STEP : COMPLETE YOUR PROFILE
                         </Header>
 
                         <Form
@@ -172,7 +194,7 @@ const Dashboard = () => {
                                     style={{ width: '100%' }}
                                     onClick={() => handleFormSubmit()}
                                     >
-                                    Generate Diet Plan
+                                    Save the Profile
                                 </Button>
                             </Form.Item>
                         </Form>

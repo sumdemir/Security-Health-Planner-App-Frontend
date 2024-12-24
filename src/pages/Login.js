@@ -19,7 +19,7 @@ const Login = () => {
       }
       localStorage.setItem('authToken', response.token);
       api.success('Login successful!');
-      navigate('/pages/Dashboard');
+      navigate('/Home');
     } catch (err) {
       api.error('Wrong password or email !');
     } finally {
