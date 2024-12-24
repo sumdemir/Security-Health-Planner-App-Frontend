@@ -29,16 +29,6 @@ const Dashboard = () => {
         try {
           // Convert medicalConditions array to a comma-separated string
           values.medicalConditions = values.medicalConditions.join(', '); // Join array items into a string
-
-          const userId = localStorage.getItem('userId'); 
-
-            if (!userId) {
-                message.error('User is not logged in.');
-                return;
-            }
-
-            // Add userId to form data
-            values.userId = userId;
           
           const response = await update(values, localStorage.getItem('authToken')); // Pass updated values
           message.success('Profil başarıyla kaydedildi!');
