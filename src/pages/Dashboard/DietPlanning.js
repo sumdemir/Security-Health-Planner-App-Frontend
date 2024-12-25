@@ -3,7 +3,6 @@ import { Layout, Menu, Breadcrumb, Modal, Select, InputNumber, Button, Form , me
 import { useNavigate } from 'react-router-dom';
 import { update } from '../../api/client';
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Option } = Select;
@@ -43,27 +42,29 @@ const Dashboard = () => {
         try {
             const userId = localStorage.getItem('bitirmeuserid');
             const authToken = localStorage.getItem('authToken');
-
+    
             const medicalConditionsString = values.medicalConditions
-            ? values.medicalConditions.join(', ')
-            : '';
-
+                ? values.medicalConditions.join(', ')
+                : '';
+    
             if (!userId || !authToken) {
                 message.error('Kullanıcı kimlik bilgileri eksik!');
                 return;
             }
-
+    
             // Güncelleme için gerekli payload
             const payload = {
                 ...values,
                 medicalConditions: medicalConditionsString,
                 userid: parseInt(userId), // LocalStorage'dan gelen userId string olduğu için parse ediyoruz
             };
-
-            const response = await update(payload, authToken);
             
-            if (response && response.status === 200) {
+            const response = await update(payload, authToken);
+            console.log('Response:', response);
+
+            if (response?.status === 200) {
                 api.success('Profile updated successfully.');
+                navigate('/ChooseDietitians');
             } else {
                 const errorMsg = response?.data?.message || 'Profil güncellenirken bir hata oluştu.';
                 api.error(errorMsg);
@@ -72,7 +73,9 @@ const Dashboard = () => {
             console.error('Error:', error.message);
             message.error('Profil güncellenirken bir hata oluştu.');
         }
+       
     };
+    
 
     const handleSuccessOk = () => {
         setIsSuccessModalVisible(false);
@@ -224,7 +227,7 @@ const Dashboard = () => {
                                 <Button type="primary"
                                     htmlType="submit"
                                     style={{ width: '100%' }}
-                                    onClick={() => handleFormSubmit()}
+                                  //  onClick={() => handleFormSubmit()}
                                     >
                                     Save the Profile
                                 </Button>

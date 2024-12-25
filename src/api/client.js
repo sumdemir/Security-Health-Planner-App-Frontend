@@ -13,13 +13,14 @@ const API_BASE_URL = 'http://localhost:8080/api/v1/client';
 
 export const update = async (clientUpdateRequest, authToken) => {
   try {
-    await axios.put(`${API_BASE_URL}/update`, clientUpdateRequest, {
+    const response = await axios.put(`${API_BASE_URL}/update`, clientUpdateRequest, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
     });
     console.log('Client başarıyla güncellendi');
+    return response;
   } catch (error) {
     const errorMessage = error.response?.data?.message || 'Client güncellenirken bir hata oluştu.';
     console.error('Client güncellenirken hata oluştu:', errorMessage);
