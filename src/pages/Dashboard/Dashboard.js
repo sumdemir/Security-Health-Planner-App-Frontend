@@ -29,7 +29,7 @@ const Dashboard = () => {
         </div>
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
           <Menu.Item key="1" onClick={() => navigate('/Home')}>Home</Menu.Item>
-          <Menu.Item key="2" onClick={() => navigate('/DietPlans')}>Diet Lists</Menu.Item>
+          <Menu.Item key="2" onClick={() => navigate('/DietPlans')}>Last Diet Lists</Menu.Item>
           <Menu.Item key="3" onClick={() => navigate('/Dietitians')}>Dietitians</Menu.Item>
           <Menu.Item key="4" onClick={() => navigate('/Trainers')}>Trainers</Menu.Item>
           <Menu.Item key="5" onClick={showLogoutConfirm}>Logout</Menu.Item>
