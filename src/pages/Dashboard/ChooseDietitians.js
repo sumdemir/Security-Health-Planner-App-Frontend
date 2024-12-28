@@ -44,21 +44,13 @@ const Dashboard = () => {
 
   const handleSelect = async (dietitianId) => {
     try {
-      // LocalStorage'dan kullanıcı ID'sini al
       const bitirmeuserid = localStorage.getItem('bitirmeuserid');
-  
-      // Kullanıcı ID'si boş ise hata fırlat
       if (!bitirmeuserid) {
         throw new Error('Kullanıcı ID\'si (bitirmeuserid) bulunamadı.');
       }
-
-      // Seçilen diyetisyenin ID'sini konsola yazdır
       console.log(`Seçilen diyetisyen idsi: ${dietitianId}`);
-  
-      // Diyet planını al
       const response = await getDietPlanChat(bitirmeuserid, dietitianId);
   
-      // Yanıtı konsola yazdır
       console.log('Diet Plan Response:', response);
     } catch (error) {
       console.error('Error fetching diet plan:', error.message);
