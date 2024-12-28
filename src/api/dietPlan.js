@@ -2,47 +2,25 @@ import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:8080/api/dietplan';
 
-// export const getDietPlan = async (clientId, dietitianId) => {
-//   try {
-//     const response = await axios.post(
-//       `${API_BASE_URL}/getDietPlan`,
-//       null,
-//       {
-//         params: { clientId, dietitianId },
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//       }
-//     );
-//     return response.data;
-//   } catch (error) {
-//     console.error('Diyet planı alınırken hata oluştu:', error.response?.data || error.message);
-//     throw new Error(error.response?.data || 'Diyet planı alınırken bir hata oluştu.');
-//   }
-// };
-
-
-/**
- * getDietPlanChat
- * @param {integer} userId - Kullanıcının ID'si
- * @param {integer} clientId - Kullanıcının ID'si
- * @param {integer} dietitianId - Seçilen diyetisyenin ID'si
- * @returns {Promise<string>} - Backend'den dönen yanıt
- */
-export const getDietPlanChat = async (userId, dietitianId) => {
+export const getDietPlanChat = async (clientId, dietitianId) => {
   try {
-    
-      const bitirmeuserid = localStorage.getItem('bitirmeuserid');
-      const response = await axios.post(`${API_BASE_URL}/getDietPlan`, {
-      clientId: bitirmeuserid,
-      dietitianId: dietitianId,
-      
+    const bitirmeuserid = parseInt(localStorage.getItem('bitirmeuserid'), 10);
+    // Eğer clientId veya dietitianId boş ise hata fırlat
+    if (!clientId || !dietitianId) {
+      throw new Error('Kullanıcı ID\'si veya Diyetisyen ID\'si eksik.');
+    }
+
+    // Backend'e istek gönder
+    const response = await axios.post(`${API_BASE_URL}/getDietPlanChat`, {
+      clientId: bitirmeuserid, // Kullanıcının ID'si
+      dietitianId: dietitianId, // Diyetisyen ID'si
     });
 
-    return response.data; // Backend'den dönen yanıt
+    // Backend'den dönen yanıtı döndür
+    return response.data;
   } catch (error) {
-    console.error('Error fetching diet plan:', error);
-    throw error;
+    console.error('Diyet planı alınırken hata oluştu:', error.response?.data || error.message);
+    throw new Error(error.response?.data || 'Diyet planı alınırken bir hata oluştu.');
   }
 };
 

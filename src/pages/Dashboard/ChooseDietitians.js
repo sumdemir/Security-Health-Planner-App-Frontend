@@ -12,12 +12,15 @@ const { Header, Content, Footer, Sider } = Layout;
 const Dashboard = () => {
   const [dietitians, setDietitians] = useState([]);
   const [error, setError] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDietitians = async () => {
       try {
         const data = await getAllDietitians();
         setDietitians(data);
+        console.log('Dietitians:', data);
       } catch (err) {
         setError(err.message);
       }
@@ -25,9 +28,6 @@ const Dashboard = () => {
 
     fetchDietitians();
   }, []);
-
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const navigate = useNavigate();
 
   const showLogoutConfirm = () => {
     setIsModalVisible(true);
@@ -42,15 +42,26 @@ const Dashboard = () => {
     setIsModalVisible(false);
   };
 
-  // Diyetisyen seçimi fonksiyonu
   const handleSelect = async (dietitianId) => {
-    const userId = localStorage.getItem('bitirmeuserid'); // Kullanıcı ID'sini localStorage'dan alıyoruz
-
     try {
-      const response = await getDietPlanChat(userId, dietitianId);
-      console.log('Diet Plan Response:', response); // Backend'den dönen yanıt
+      // LocalStorage'dan kullanıcı ID'sini al
+      const bitirmeuserid = localStorage.getItem('bitirmeuserid');
+  
+      // Kullanıcı ID'si boş ise hata fırlat
+      if (!bitirmeuserid) {
+        throw new Error('Kullanıcı ID\'si (bitirmeuserid) bulunamadı.');
+      }
+
+      // Seçilen diyetisyenin ID'sini konsola yazdır
+      console.log(`Seçilen diyetisyen idsi: ${dietitianId}`);
+  
+      // Diyet planını al
+      const response = await getDietPlanChat(bitirmeuserid, dietitianId);
+  
+      // Yanıtı konsola yazdır
+      console.log('Diet Plan Response:', response);
     } catch (error) {
-      console.error('Error:', error.message);
+      console.error('Error fetching diet plan:', error.message);
     }
   };
 
