@@ -19,7 +19,6 @@ export const update = async (clientUpdateRequest, authToken) => {
         Authorization: `Bearer ${authToken}`,
       },
     });
-    console.log('Client başarıyla güncellendi');
     return response;
   } catch (error) {
     const errorMessage = error.response?.data?.message || 'Client güncellenirken bir hata oluştu.';

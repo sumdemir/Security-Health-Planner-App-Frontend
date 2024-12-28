@@ -1,13 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Layout, Menu, Breadcrumb, Modal, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import diyetisyen1Image from '../../assets/images/diyetisyen1.jpg';
 import diyetisyen2Image from '../../assets/images/diyetisyen2.jpg';
 import diyetisyen3Image from '../../assets/images/diyetisyen3.jpg';
+import { getAllDietitians } from '../../api/dietitian';
+import { getDietPlanChat } from '../../api/dietPlan';
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const Dashboard = () => {
+  const [dietitians, setDietitians] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchDietitians = async () => {
+      try {
+        const data = await getAllDietitians();
+        setDietitians(data);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    fetchDietitians();
+  }, []);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
 
@@ -24,6 +42,20 @@ const Dashboard = () => {
     setIsModalVisible(false);
   };
 
+  // Diyetisyen seçimi fonksiyonu
+  const handleSelect = async (dietitianId) => {
+    const userId = localStorage.getItem('bitirmeuserid'); // Kullanıcı ID'sini localStorage'dan alıyoruz
+
+    try {
+      const response = await getDietPlanChat(userId, dietitianId);
+      console.log('Diet Plan Response:', response); // Backend'den dönen yanıt
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
+
+  const dietitianImages = [diyetisyen1Image, diyetisyen2Image, diyetisyen3Image];
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider>
@@ -31,7 +63,7 @@ const Dashboard = () => {
           Health Planner
         </div>
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-          <Menu.Item key="1" onClick={() => navigate('/Home')}> Home</Menu.Item>
+          <Menu.Item key="1" onClick={() => navigate('/Home')}>Home</Menu.Item>
           <Menu.Item key="2" onClick={() => navigate('/DietPlans')}>Last Diet Lists</Menu.Item>
           <Menu.Item key="3" onClick={() => navigate('/Dietitians')}>Dietitians</Menu.Item>
           <Menu.Item key="4" onClick={() => navigate('/Trainers')}>Trainers</Menu.Item>
@@ -50,51 +82,34 @@ const Dashboard = () => {
               SECOND STEP: CHOOSE YOUR DIETITIAN
             </Header>
             <div style={{ marginTop: 20, textAlign: 'center' }}>
-
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px', flexWrap: 'wrap' }}>
-  {/* Diyetisyen 1 */}
-  <div style={{ textAlign: 'center', width: '200px' }}>
-    <img
-      src={diyetisyen1Image}
-      alt="Dietitian 1"
-      style={{ width: '200px', height: '200px', borderRadius: '50%' }}
-    />
-    <div style={{ marginTop: '10px' }}>
-      <Button type="primary">Select</Button>
-    </div>
-  </div>
-  {/* Diyetisyen 2 */}
-  <div style={{ textAlign: 'center', width: '200px' }}>
-    <img
-      src={diyetisyen2Image}
-      alt="Dietitian 2"
-      style={{ width: '200px', height: '200px', borderRadius: '50%' }}
-    />
-    <div style={{ marginTop: '10px' }}>
-      <Button type="primary">Select</Button>
-    </div>
-  </div>
-  {/* Diyetisyen 3 */}
-  <div style={{ textAlign: 'center', width: '200px' }}>
-    <img
-      src={diyetisyen3Image}
-      alt="Dietitian 3"
-      style={{ width: '200px', height: '200px', borderRadius: '50%' }}
-    />
-    <div style={{ marginTop: '10px' }}>
-      <Button type="primary">Select</Button>
-    </div>
-  </div>
-</div>
-
-
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px', flexWrap: 'wrap' }}>
+                {dietitians.map((dietitian, index) => (
+                  <div key={dietitian.id} style={{ textAlign: 'center', width: '200px' }}>
+                    <img
+                      src={dietitianImages[index % dietitianImages.length]}
+                      alt={`Dietitian ${index + 1}`}
+                      style={{ width: '200px', height: '200px', borderRadius: '50%' }}
+                    />
+                    <div style={{ marginTop: '10px', fontWeight: 'bold' }}>
+                      {dietitian.firstName} {dietitian.lastName}
+                    </div>
+                    <div style={{ color: 'gray', fontSize: '14px' }}>
+                      {dietitian.specialization}
+                    </div>
+                    <div style={{ marginTop: '10px' }}>
+                      <Button type="primary" onClick={() => handleSelect(dietitian.id)}>
+                        Select
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>My Dashboard ©2024 Created with Ant Design</Footer>
       </Layout>
 
-      {/* Logout Confirmation Modal */}
       <Modal
         title="Confirmation"
         visible={isModalVisible}

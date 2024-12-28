@@ -58,14 +58,14 @@ const Dashboard = () => {
                 medicalConditions: medicalConditionsString,
                 userid: parseInt(userId), // LocalStorage'dan gelen userId string olduğu için parse ediyoruz
             };
+            console.log('Payload:', payload);
             
             const response = await update(payload, authToken);
             console.log('Response:', response);
 
             if (response?.status === 200) {
                 api.success('Profile updated successfully.');
-                navigate('/ChooseDietitians');
-            } else {
+                navigate('/ChooseDietitians', { state: payload });
                 const errorMsg = response?.data?.message || 'Profil güncellenirken bir hata oluştu.';
                 api.error(errorMsg);
             }
@@ -218,7 +218,7 @@ const Dashboard = () => {
                                 <Select placeholder="Select your activity level">
                                     <Option value="LOW">LOW</Option>
                                     <Option value="MEDIUM">MEDIUM</Option>
-                                    <Option value="HIGH">HIGH</Option>
+                                    <Option value="HARD">HARD</Option>
 
                                 </Select>
                             </Form.Item>
