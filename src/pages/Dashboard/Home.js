@@ -142,7 +142,9 @@ const Dashboard = () => {
                 type="primary"
                 size="large"
                 icon={<AntDesignOutlined />}
-                style={{ fontSize: '16px' }}
+                style={{ marginBottom: '20px', fontSize: '16px'  }}
+                onClick={() => navigate('/TrainingPlanning')}
+              
               >
                 Create Train Plan
               </Button>

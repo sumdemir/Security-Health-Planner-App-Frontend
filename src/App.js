@@ -10,6 +10,8 @@ import Dietitians from './pages/Dashboard/Dietitians';
 import Trainers from './pages/Dashboard/Trainers';
 import DietPlanning from './pages/Dashboard/DietPlanning';
 import ChooseDietitians from './pages/Dashboard/ChooseDietitians';
+import ChooseTrainers from './pages/Dashboard/ChooseTrainers';
+import TrainingPlanning from './pages/Dashboard/TrainingPlanning';
 import './App.css';
 
 
@@ -28,6 +30,8 @@ function App() {
           <Route path = "/Trainers" element = {<Trainers />} />
           <Route path= "/DietPlanning" element = {<DietPlanning />} />
           <Route path="/ChooseDietitians" element={<ChooseDietitians/>} />
+          <Route path="/ChooseTrainers" element={<ChooseTrainers/>} />
+          <Route path = "/TrainingPlanning" element = {<TrainingPlanning />} />
 
           
         </Routes>

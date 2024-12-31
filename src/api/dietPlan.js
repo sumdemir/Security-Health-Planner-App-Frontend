@@ -10,8 +10,8 @@ export const getDietPlanChat = async (clientId, dietitianId) => {
     }
     
     const response = await axios.post(`${API_BASE_URL}/getDietPlanChat`, {
-      clientId: bitirmeuserid, // Kullanıcının ID'si
-      dietitianId: dietitianId, // Diyetisyen ID'si
+      clientId: bitirmeuserid,
+      dietitianId: dietitianId,
     });
     
     return response.data;

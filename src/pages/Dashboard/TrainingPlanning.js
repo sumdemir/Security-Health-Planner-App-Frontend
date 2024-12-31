@@ -65,7 +65,7 @@ const Dashboard = () => {
 
             if (response?.status === 200) {
                 api.success('Profile updated successfully.');
-                navigate('/ChooseDietitians', { state: payload });
+                navigate('/ChooseTrainers', { state: payload });
                 const errorMsg = response?.data?.message || 'Profil güncellenirken bir hata oluştu.';
                 api.error(errorMsg);
             }
