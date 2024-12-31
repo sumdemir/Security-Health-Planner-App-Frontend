@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Menu, Breadcrumb, Modal, Button } from 'antd';
+import { Layout, Menu, Breadcrumb, Modal, Button, Spin } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import antrenor1Image from '../../assets/images/antrenor1.jpg';
 import antrenor2Image from '../../assets/images/antrenor2.jpg';
@@ -13,6 +13,7 @@ const Dashboard = () => {
   const [error, setError] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchTrainers = async () => {
@@ -44,6 +45,7 @@ const Dashboard = () => {
   //SPOR APISI BAĞLANACAK
   const handleSelect = async (trainerId) => {
     try {
+      setLoading(true);
       const bitirmeuserid = localStorage.getItem('bitirmeuserid');
       if (!bitirmeuserid) {
         throw new Error('Kullanıcı ID\'si (bitirmeuserid) bulunamadı.');
@@ -52,6 +54,8 @@ const Dashboard = () => {
       const response = await getTrainingPlanChat(bitirmeuserid, trainerId);
   
       console.log('Spor Plan Response:', response);
+      setLoading(false); // Loading spinner'ı durdur
+      // navigate('/TrainingPlanResponse'); 
     } catch (error) {
       console.error('Error fetching spor plan:', error.message);
     }

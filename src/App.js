@@ -12,6 +12,8 @@ import DietPlanning from './pages/Dashboard/DietPlanning';
 import ChooseDietitians from './pages/Dashboard/ChooseDietitians';
 import ChooseTrainers from './pages/Dashboard/ChooseTrainers';
 import TrainingPlanning from './pages/Dashboard/TrainingPlanning';
+import TrainingPlanResponse from './pages/Dashboard/TrainingPlanResponse';
+
 import './App.css';
 
 
@@ -32,6 +34,8 @@ function App() {
           <Route path="/ChooseDietitians" element={<ChooseDietitians/>} />
           <Route path="/ChooseTrainers" element={<ChooseTrainers/>} />
           <Route path = "/TrainingPlanning" element = {<TrainingPlanning />} />
+          <Route path = "/TrainingPlanResponse" element = {<TrainingPlanResponse />} />
+          
 
           
         </Routes>
