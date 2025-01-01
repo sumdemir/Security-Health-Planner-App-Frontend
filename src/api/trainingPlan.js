@@ -8,12 +8,12 @@ export const getTrainingPlanChat = async (clientId, trainerId) => {
     if (!clientId || !trainerId) {
       throw new Error('Kullanıcı ID\'si veya Antrenör ID\'si eksik.');
     }
-    
-    const response = await axios.post(`${API_BASE_URL}/getTrainingPlanChat`, {
+
+    const response = await axios.post(`${API_BASE_URL}/getTrainingPlanDTO`, {
       clientId: bitirmeuserid,
       trainerId: trainerId,
     });
-    
+
     return response.data;
   } catch (error) {
     console.error('Spor planı alınırken hata oluştu:', error.response?.data || error.message);

@@ -1,35 +1,50 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Menu, Breadcrumb, Card, Spin, Alert } from 'antd';
+import { Layout, Menu, Breadcrumb, Card, Spin, Alert, Modal, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { getTrainingPlanChat } from '../../api/trainingPlan';
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [programText, setProgramText] = useState('');
+  const [trainingPlan, setTrainingPlan] = useState(null);  // Gelen veriyi burada saklayacağız
   const navigate = useNavigate();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  // localStorage'dan verileri alıyoruz
+  const bitirmeuserid = parseInt(localStorage.getItem('bitirmeuserid'), 10);
+  const trainerId = parseInt(localStorage.getItem('trainerId'), 10);
+
+  const handleLogout = () => {
+    setIsModalVisible(false);
+    navigate('/login');
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const fetchSportProgram = async () => {
+    try {
+      if (!bitirmeuserid || !trainerId) {
+        console.log('Bitirmeuserid:', bitirmeuserid);
+        console.log('TrainerId:', trainerId);
+        throw new Error('Eksik ID\'ler!');
+      }
+      const data = await getTrainingPlanChat(bitirmeuserid, trainerId); // trainerId ile çağrı yapılıyor
+      console.log('Fetched Plan:', data);
+      setTrainingPlan(data);
+      setIsLoading(false); 
+    } catch (err) {
+      setError(err.message);
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    // API'den veriyi çek
-    const fetchProgram = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch('http://localhost:8080/api/v1/trainingplan/getTrainingPlanChat'); // API endpoint
-        if (!response.ok) {
-          throw new Error('Veri alınırken bir hata oluştu!');
-        }
-        const data = await response.json();
-        setProgramText(data.candidates[0]?.content?.parts[0]?.text || 'Program bulunamadı.');
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchProgram();
-  }, []);
+    fetchSportProgram(); // Parametreleri burada gönderiyoruz
+  }, []);   // Yalnızca component mount olduğunda çalışacak.
 
   const showLogoutConfirm = () => {
     // Logout işlemi burada yapılabilir
@@ -42,21 +57,11 @@ const Dashboard = () => {
           Health Planner
         </div>
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-          <Menu.Item key="1" onClick={() => navigate('/Home')}>
-            Home
-          </Menu.Item>
-          <Menu.Item key="2" onClick={() => navigate('/DietPlans')}>
-            Last Diet Lists
-          </Menu.Item>
-          <Menu.Item key="3" onClick={() => navigate('/Dietitians')}>
-            Dietitians
-          </Menu.Item>
-          <Menu.Item key="4" onClick={() => navigate('/Trainers')}>
-            Trainers
-          </Menu.Item>
-          <Menu.Item key="5" onClick={showLogoutConfirm}>
-            Logout
-          </Menu.Item>
+          <Menu.Item key="1" onClick={() => navigate('/Home')}>Home</Menu.Item>
+          <Menu.Item key="2" onClick={() => navigate('/DietPlans')}>Last Diet Lists</Menu.Item>
+          <Menu.Item key="3" onClick={() => navigate('/Dietitians')}>Dietitians</Menu.Item>
+          <Menu.Item key="4" onClick={() => navigate('/Trainers')}>Trainers</Menu.Item>
+          <Menu.Item key="5" onClick={showLogoutConfirm}>Logout</Menu.Item>
         </Menu>
       </Sider>
       <Layout>
@@ -67,7 +72,7 @@ const Dashboard = () => {
           </Breadcrumb>
           <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
             <Header style={{ background: '#fff', padding: 0, textAlign: 'center', fontSize: '24px' }}>
-              CREATED SPORT PROGRAM
+              YOUR SPORT PROGRAM CREATED!
             </Header>
             {isLoading ? (
               <Spin tip="Loading..." style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }} />
@@ -80,13 +85,29 @@ const Dashboard = () => {
                 style={{ marginTop: '20px' }}
               />
             ) : (
-              <Card title="Your Personalized Program" bordered={false} style={{ marginTop: '20px' }}>
-                <p style={{ whiteSpace: 'pre-line' }}>{programText}</p>
-              </Card>
+              <div style={{ marginTop: '20px' }}>
+                {/* Gelen Spor Planı buraya yazdırıyoruz */}
+                <Card title="Your Personalized Program" bordered={false}>
+                  <div style={{ whiteSpace: 'pre-line' }}>
+                    <h3>Program Details:</h3>
+                    <p>{trainingPlan?.planDetails}</p>
+                  </div>
+                </Card>
+              </div>
             )}
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>My Dashboard ©2024 Created with Ant Design</Footer>
+        <Modal
+          title="Confirmation"
+          visible={isModalVisible}
+          onOk={handleLogout}
+          onCancel={handleCancel}
+          okText="Yes"
+          cancelText="No"
+        >
+          <p>Are you sure you want to log out?</p>
+        </Modal>
       </Layout>
     </Layout>
   );

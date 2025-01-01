@@ -42,20 +42,20 @@ const Dashboard = () => {
     setIsModalVisible(false);
   };
 
-  //SPOR APISI BAĞLANACAK
   const handleSelect = async (trainerId) => {
     try {
       setLoading(true);
       const bitirmeuserid = localStorage.getItem('bitirmeuserid');
+      
       if (!bitirmeuserid) {
         throw new Error('Kullanıcı ID\'si (bitirmeuserid) bulunamadı.');
       }
       console.log(`Seçilen antrenör idsi: ${trainerId}`);
       const response = await getTrainingPlanChat(bitirmeuserid, trainerId);
-  
+      localStorage.setItem('trainerId', trainerId);
       console.log('Spor Plan Response:', response);
-      setLoading(false); // Loading spinner'ı durdur
-      // navigate('/TrainingPlanResponse'); 
+      setLoading(false);
+      navigate('/TrainingPlanResponse'); 
     } catch (error) {
       console.error('Error fetching spor plan:', error.message);
     }
