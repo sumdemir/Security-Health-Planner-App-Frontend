@@ -14,6 +14,7 @@ const Dashboard = () => {
   const [error, setError] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchDietitians = async () => {
@@ -44,14 +45,17 @@ const Dashboard = () => {
 
   const handleSelect = async (dietitianId) => {
     try {
+      setLoading(true);
       const bitirmeuserid = localStorage.getItem('bitirmeuserid');
       if (!bitirmeuserid) {
         throw new Error('Kullanıcı ID\'si (bitirmeuserid) bulunamadı.');
       }
       console.log(`Seçilen diyetisyen idsi: ${dietitianId}`);
       const response = await getDietPlanChat(bitirmeuserid, dietitianId);
-  
+      localStorage.setItem('dietitianId', dietitianId);
       console.log('Diet Plan Response:', response);
+      setLoading(false);
+      navigate('/DietPlanResponse');
     } catch (error) {
       console.error('Error fetching diet plan:', error.message);
     }

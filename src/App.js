@@ -13,6 +13,7 @@ import ChooseDietitians from './pages/Dashboard/ChooseDietitians';
 import ChooseTrainers from './pages/Dashboard/ChooseTrainers';
 import TrainingPlanning from './pages/Dashboard/TrainingPlanning';
 import TrainingPlanResponse from './pages/Dashboard/TrainingPlanResponse';
+import DietPlanResponse from './pages/Dashboard/DietPlanResponse';
 
 import './App.css';
 
@@ -35,6 +36,7 @@ function App() {
           <Route path="/ChooseTrainers" element={<ChooseTrainers/>} />
           <Route path = "/TrainingPlanning" element = {<TrainingPlanning />} />
           <Route path = "/TrainingPlanResponse" element = {<TrainingPlanResponse />} />
+          <Route path = "/DietPlanResponse" element = {<DietPlanResponse />} />
           
 
           

@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Menu, Breadcrumb, Card, Spin, Alert, Modal, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { getTrainingPlanChat } from '../../api/trainingPlan';
+import { getDietPlanChat } from '../../api/dietPlan';
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [trainingPlan, setTrainingPlan] = useState(null);  // Gelen veriyi burada saklayacağız
+  const [dietPlan, setDietPlan] = useState(null);  // Gelen veriyi burada saklayacağız
   const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   // localStorage'dan verileri alıyoruz
   const bitirmeuserid = parseInt(localStorage.getItem('bitirmeuserid'), 10);
-  const trainerId = parseInt(localStorage.getItem('trainerId'), 10);
+  const dietitianId = parseInt(localStorage.getItem('dietitianId'), 10);
 
   const handleLogout = () => {
     setIsModalVisible(false);
@@ -25,16 +25,16 @@ const Dashboard = () => {
     setIsModalVisible(false);
   };
 
-  const fetchSportProgram = async () => {
+  const fetchDietProgram = async () => {
     try {
-      if (!bitirmeuserid || !trainerId) {
+      if (!bitirmeuserid || !dietitianId) {
         console.log('Bitirmeuserid:', bitirmeuserid);
-        console.log('TrainerId:', trainerId);
+        console.log('DietitanId:', dietitianId);
         throw new Error('Eksik ID\'ler!');
       }
-      const data = await getTrainingPlanChat(bitirmeuserid, trainerId); // trainerId ile çağrı yapılıyor
+      const data = await getDietPlanChat(bitirmeuserid, dietitianId);
       console.log('Fetched Plan:', data);
-      setTrainingPlan(data);
+      setDietPlan(data);
       setIsLoading(false); 
     } catch (err) {
       setError(err.message);
@@ -43,8 +43,9 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    fetchSportProgram();
-  }, []);   
+    fetchDietProgram(); 
+  }, []);
+
   const showLogoutConfirm = () => {
     setIsModalVisible(true);
   };
@@ -71,7 +72,7 @@ const Dashboard = () => {
           </Breadcrumb>
           <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
             <Header style={{ background: '#fff', padding: 0, textAlign: 'center', fontSize: '24px' }}>
-              YOUR SPORT PROGRAM CREATED!
+              YOUR DIET PROGRAM CREATED!
             </Header>
             {isLoading ? (
               <Spin tip="Loading..." style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }} />
@@ -86,10 +87,10 @@ const Dashboard = () => {
             ) : (
               <div style={{ marginTop: '20px' }}>
                 {/* Gelen Spor Planı buraya yazdırıyoruz */}
-                <Card title="Your Personalized Sport Program" bordered={false}>
+                <Card title="Your Personalized Diet Program" bordered={false}>
                   <div style={{ whiteSpace: 'pre-line' }}>
                     <h3>Program Details:</h3>
-                    <p>{trainingPlan?.planDetails}</p>
+                    <p>{dietPlan?.planDetails}</p>
                   </div>
                 </Card>
               </div>

@@ -9,7 +9,7 @@ export const getDietPlanChat = async (clientId, dietitianId) => {
       throw new Error('Kullanıcı ID\'si veya Diyetisyen ID\'si eksik.');
     }
     
-    const response = await axios.post(`${API_BASE_URL}/getDietPlanChat`, {
+    const response = await axios.post(`${API_BASE_URL}/getDietPlanDTO`, {
       clientId: bitirmeuserid,
       dietitianId: dietitianId,
     });
