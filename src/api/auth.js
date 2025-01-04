@@ -2,8 +2,6 @@ import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:8080/api/v1/auth';
 
-
-// Register Fonksiyonu
 export const register = async (userData) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/register`, userData, {
@@ -18,7 +16,6 @@ export const register = async (userData) => {
   }
 };
 
-// Authenticate (Login) Fonksiyonu
 export const authenticate = async (credentials) => {
   try {
     
@@ -38,7 +35,6 @@ export const authenticate = async (credentials) => {
   }
 };
 
-// Forgot Password Fonksiyonu
 export const forgotPassword = async (email) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/forgot-password`, { email }, {
@@ -53,7 +49,6 @@ export const forgotPassword = async (email) => {
   }
 };
 
-// Reset Password Fonksiyonu
 export const resetPassword = async (email, newPassword) => {
   const response = await fetch("/api/reset-password", {
     method: "POST",
@@ -63,7 +58,6 @@ export const resetPassword = async (email, newPassword) => {
   return response.json();
 };
 
-//Update Password Fonksiyonu
 export const updatePassword = async (email, newPassword) => {
   try {
     const response = await axios.put(`${API_BASE_URL}/update-password`, {

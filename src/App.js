@@ -14,6 +14,7 @@ import ChooseTrainers from './pages/Dashboard/ChooseTrainers';
 import TrainingPlanning from './pages/Dashboard/TrainingPlanning';
 import TrainingPlanResponse from './pages/Dashboard/TrainingPlanResponse';
 import DietPlanResponse from './pages/Dashboard/DietPlanResponse';
+import Register from './pages/Register';
 
 import './App.css';
 
@@ -37,6 +38,7 @@ function App() {
           <Route path = "/TrainingPlanning" element = {<TrainingPlanning />} />
           <Route path = "/TrainingPlanResponse" element = {<TrainingPlanResponse />} />
           <Route path = "/DietPlanResponse" element = {<DietPlanResponse />} />
+          <Route path="/Register" element={<Register />} />
           
 
           

@@ -15,22 +15,22 @@ export const AuthProvider = ({ children }) => {
       setuserId(response.userid);
       return response;
     } catch (error) {
-      throw error; // Hata durumunu çağıran tarafa ilet
+      throw error;
     }
   };
 
   const registerUser = async (userData) => {
     try {
       const response = await register(userData);
-      return response; // Kayıt başarılı olduğunda döndür
+      return response;
     } catch (error) {
-      throw error; // Hata durumunu çağıran tarafa ilet
+      throw error;
     }
   };
 
   const logout = () => {
     setAuthToken(null);
-    localStorage.removeItem('authToken'); // Token'ı kaldır
+    localStorage.removeItem('authToken');
   };
 
   return (
@@ -40,5 +40,5 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// AuthContext kullanımı için yardımcı kanca
+
 export const useAuth = () => useContext(AuthContext);
