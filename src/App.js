@@ -1,4 +1,4 @@
-import React, { Profiler } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard/Dashboard';
@@ -17,29 +17,40 @@ import DietPlanResponse from './pages/Dashboard/DietPlanResponse';
 import Profile from './pages/Dashboard/Profile';
 import Register from './pages/Register';
 import Sidebar from './components/Layouts/Sidebar';
-import { useState, useEffect } from 'react';
 
 import './App.css';
 
 function App() {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    
+  const [user, setUser] = useState(() => {
+    // İlk yüklemede localStorage'dan kullanıcı bilgilerini al
     const userFirstName = localStorage.getItem('userFirstName');
     const userLastName = localStorage.getItem('userLastName');
+    return userFirstName && userLastName
+      ? { firstname: userFirstName, lastname: userLastName }
+      : null;
+  });
 
-    if (userFirstName && userLastName) {
-      setUser({
-        firstname: userFirstName,
-        lastname: userLastName,
-      });
-    }
+  useEffect(() => {
+    // LocalStorage değişikliklerini dinle ve kullanıcı bilgilerini güncelle
+    const handleStorageChange = () => {
+      const userFirstName = localStorage.getItem('userFirstName');
+      const userLastName = localStorage.getItem('userLastName');
+      if (userFirstName && userLastName) {
+        setUser({ firstname: userFirstName, lastname: userLastName });
+      } else {
+        setUser(null);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
   const handleLogout = () => {
-    
     localStorage.removeItem('authToken');
+    localStorage.removeItem('userFirstName');
+    localStorage.removeItem('userLastName');
+    setUser(null); // Kullanıcıyı sıfırla
     window.location.reload();
   };
 

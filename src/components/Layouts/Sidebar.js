@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Layout, Avatar, Typography, Menu, Modal } from 'antd';
 import {
   UserOutlined,
@@ -12,15 +12,49 @@ import { useNavigate } from 'react-router-dom';
 const { Sider } = Layout;
 const { Title, Text } = Typography;
 
-const Sidebar = ({ user }) => {
+const Sidebar = () => {
+  const [user, setUser] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // LocalStorage'dan kullanıcı bilgilerini al
+    const userFirstName = localStorage.getItem('userFirstName');
+    const userLastName = localStorage.getItem('userLastName');
+
+    if (userFirstName && userLastName) {
+      setUser({
+        firstname: userFirstName,
+        lastname: userLastName,
+      });
+    }
+
+    // LocalStorage değişikliklerini dinle
+    const handleStorageChange = () => {
+      const updatedFirstName = localStorage.getItem('userFirstName');
+      const updatedLastName = localStorage.getItem('userLastName');
+      if (updatedFirstName && updatedLastName) {
+        setUser({
+          firstname: updatedFirstName,
+          lastname: updatedLastName,
+        });
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
 
   const showLogoutConfirm = () => {
     setIsModalVisible(true);
   };
 
   const handleLogout = () => {
+    // Kullanıcı bilgilerini sıfırla
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('userFirstName');
+    localStorage.removeItem('userLastName');
+    setUser(null);
     setIsModalVisible(false);
     navigate('/login');
   };
@@ -39,12 +73,14 @@ const Sidebar = ({ user }) => {
         flexDirection: 'column',
         alignItems: 'center',
         padding: '24px 0',
-        justifyContent: 'space-between', // İçeriği dikeyde dağıtmak için
+        justifyContent: 'space-between',
       }}
     >
       {/* Başlık */}
-      <Title level={2} 
-      style={{ color: '#fff', marginBottom: '32px' , textAlign: 'center'}}>
+      <Title
+        level={2}
+        style={{ color: '#fff', marginBottom: '32px', textAlign: 'center' }}
+      >
         Health Planner
       </Title>
 
@@ -63,7 +99,7 @@ const Sidebar = ({ user }) => {
             color: '#fff',
             fontSize: '18px',
             fontWeight: 'bold',
-            display: 'block', // Text'in alt satıra geçmesini sağlar
+            display: 'block',
           }}
         >
           {user?.firstname || 'Firstname'} {user?.lastname || 'Lastname'}
@@ -125,7 +161,6 @@ const Sidebar = ({ user }) => {
           key="6"
           icon={<ProfileOutlined />}
           style={{ fontSize: '16px' }}
-          
         >
           Profile
         </Menu.Item>
@@ -137,8 +172,6 @@ const Sidebar = ({ user }) => {
         >
           Logout
         </Menu.Item>
-
-       
       </Menu>
 
       {/* Logout Confirmation Modal */}
