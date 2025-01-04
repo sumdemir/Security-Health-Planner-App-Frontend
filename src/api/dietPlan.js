@@ -21,21 +21,21 @@ export const getDietPlanChat = async (clientId, dietitianId) => {
   }
 };
 
-export const getAllDietPlansForUser = async (clientId) => {
+export const getAllDietPlansForUser = async () => {
   try {
     const bitirmeuserid = parseInt(localStorage.getItem('bitirmeuserid'), 10);
-    if (!clientId) {
-      throw new Error('Kullanıcı ID\'si veya Antrenör ID\'si eksik.');
+    if (!bitirmeuserid) {
+      throw new Error('Kullanıcı ID\'si eksik.');
     }
 
     const response = await axios.get(`${API_BASE_URL}/getAllDietPlansForUser`, {
-      clientId: bitirmeuserid,
+      params: { clientId: bitirmeuserid },
     });
 
     return response.data;
   } catch (error) {
-    console.error('Spor planı alınırken hata oluştu:', error.response?.data || error.message);
-    throw new Error(error.response?.data || 'Spor planı alınırken bir hata oluştu.');
+    console.error('Diyet planları alınırken hata oluştu:', error.response?.data || error.message);
+    throw new Error(error.response?.data || 'Diyet planları alınırken bir hata oluştu.');
   }
 };
 

@@ -1,17 +1,15 @@
-import React, { useState } from 'react';
-import { Layout, Menu, Breadcrumb, Modal } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Layout, Breadcrumb, Modal, Card, Row, Col } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { getAllDietPlansForUser } from '../../api/dietPlan';
-import { useEffect } from 'react';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Footer } = Layout;
 
 const Dashboard = () => {
   const [dietLists, setDietLists] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const fetchDietLists = async () => {
@@ -20,18 +18,16 @@ const Dashboard = () => {
         if (!bitirmeuserid) {
           throw new Error('Client ID eksik.');
         }
-  
-        // Diğer kodlar...
-        const data = await getAllDietPlansForUser(bitirmeuserid); // clientId olarak bitirmeuserid gönder
-        setDietLists(data); // Veriyi burada set ediyoruz
+
+        const data = await getAllDietPlansForUser(bitirmeuserid);
+        setDietLists(data);
         console.log('All Diet Lists:', data);
       } catch (err) {
-        // Hata mesajını logla
         console.error('Hata oluştu:', err.message);
         setError(err.message);
       }
     };
-  
+
     fetchDietLists();
   }, []);
 
@@ -50,7 +46,6 @@ const Dashboard = () => {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-     
       <Layout>
         <Content style={{ margin: '16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
@@ -60,24 +55,27 @@ const Dashboard = () => {
 
           <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
             <Header style={{ background: '#fff', padding: 0, textAlign: 'center', fontSize: '24px' }}>
-              CREATE YOUR PLANS
+              RECENT DIET PLANS
             </Header>
             <div style={{ marginTop: 20, textAlign: 'center' }}>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px', flexWrap: 'wrap' }}>
-                {dietLists.map((dietPlan, index) => (
-                  <div key={dietPlan.id} style={{ textAlign: 'center', width: '200px' }}>
-                    <div style={{ marginTop: '10px', fontWeight: 'bold' }}>
-                      {dietPlan.planName}
-                    </div>
-                    <div style={{ color: 'gray', fontSize: '14px' }}>
-                      {dietPlan.planDetails}
-                    </div>
-                    <div style={{ marginTop: '10px' }}>
-                      <h3> {dietPlan.createdAt}</h3> {/* Tarih bilgisi */}
-                    </div>
-                  </div>
+              <Row gutter={[16, 16]} justify="center">
+                {dietLists.map((dietPlan) => (
+                  <Col key={dietPlan.id} xs={24} sm={12} md={8} lg={6}>
+                    <Card
+                      title={dietPlan.planName}
+                      bordered={true}
+                      hoverable
+                      style={{
+                        width: 300,
+                        textAlign: 'left',
+                      }}
+                    >
+                      <p style={{ color: 'gray', fontSize: '14px' }}>{dietPlan.planDetails}</p>
+                      <p style={{ marginTop: '10px', fontWeight: 'bold' }}>Created At: {new Date(dietPlan.createdAt).toLocaleString()}</p>
+                    </Card>
+                  </Col>
                 ))}
-              </div>
+              </Row>
             </div>
           </div>
         </Content>
