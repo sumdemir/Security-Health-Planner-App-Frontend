@@ -65,7 +65,7 @@ const Sidebar = () => {
 
   return (
     <Sider
-      width={300}
+      width={250}
       style={{
         background: '#001529',
         color: '#fff',
@@ -137,7 +137,7 @@ const Sidebar = () => {
           key="3"
           icon={<UserOutlined />}
           style={{ fontSize: '16px' }}
-          onClick={() => navigate('/Dashboard/DietPlans')}
+          onClick={() => navigate('/Dashboard/TrainingPlans')}
         >
           Recent Sport Plan Lists
         </Menu.Item>

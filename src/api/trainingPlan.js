@@ -20,3 +20,21 @@ export const getTrainingPlanChat = async (clientId, trainerId) => {
     throw new Error(error.response?.data || 'Spor planı alınırken bir hata oluştu.');
   }
 };
+
+export const getAllTrainingPlansForUser = async () => {
+  try {
+    const bitirmeuserid = parseInt(localStorage.getItem('bitirmeuserid'), 10);
+    if (!bitirmeuserid) {
+      throw new Error('Kullanıcı ID\'si eksik.');
+    }
+
+    const response = await axios.get(`${API_BASE_URL}/getAllTrainingPlansForUser`, {
+      params: { clientId: bitirmeuserid },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Diyet planları alınırken hata oluştu:', error.response?.data || error.message);
+    throw new Error(error.response?.data || 'Diyet planları alınırken bir hata oluştu.');
+  }
+};

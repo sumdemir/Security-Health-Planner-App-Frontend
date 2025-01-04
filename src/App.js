@@ -15,6 +15,7 @@ import TrainingPlanning from './pages/Dashboard/TrainingPlanning';
 import TrainingPlanResponse from './pages/Dashboard/TrainingPlanResponse';
 import DietPlanResponse from './pages/Dashboard/DietPlanResponse';
 import Profile from './pages/Dashboard/Profile';
+import TrainingPlans from './pages/Dashboard/TrainingPlans';
 import Register from './pages/Register';
 import Sidebar from './components/Layouts/Sidebar';
 
@@ -84,6 +85,7 @@ function App() {
                     <Route path="TrainingPlanResponse" element={<TrainingPlanResponse />} />
                     <Route path="DietPlanResponse" element={<DietPlanResponse />} />
                     <Route path="Profile" element={<Profile />} />
+                    <Route path='TrainingPlans' element={<TrainingPlans />} />
                   </Routes>
                 </div>
               </div>
