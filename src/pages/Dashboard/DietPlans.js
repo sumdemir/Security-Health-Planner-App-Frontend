@@ -1,12 +1,39 @@
 import React, { useState } from 'react';
 import { Layout, Menu, Breadcrumb, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { getAllDietPlansForUser } from '../../api/dietPlan';
+import { useEffect } from 'react';
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const Dashboard = () => {
+  const [dietLists, setDietLists] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const fetchDietLists = async () => {
+      try {
+        const bitirmeuserid = parseInt(localStorage.getItem('bitirmeuserid'), 10);
+        if (!bitirmeuserid) {
+          throw new Error('Client ID eksik.');
+        }
+  
+        // Diğer kodlar...
+        const data = await getAllDietPlansForUser(bitirmeuserid); // clientId olarak bitirmeuserid gönder
+        setDietLists(data); // Veriyi burada set ediyoruz
+        console.log('All Diet Lists:', data);
+      } catch (err) {
+        // Hata mesajını logla
+        console.error('Hata oluştu:', err.message);
+        setError(err.message);
+      }
+    };
+  
+    fetchDietLists();
+  }, []);
 
   const showLogoutConfirm = () => {
     setIsModalVisible(true);
@@ -23,19 +50,7 @@ const Dashboard = () => {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sider>
-        <div style={{ color: 'white', textAlign: 'center', padding: '16px', fontSize: '18px' }}>
-          Health Planner
-        </div>
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-          <Menu.Item key="1" onClick={() => navigate('/Home')}>Home</Menu.Item>
-                    <Menu.Item key="2" onClick={() => navigate('/DietPlans')}>Recent Diet Lists</Menu.Item>
-                    <Menu.Item key="3" onClick={() => navigate('/DietPlans')}>Recent Sport Plan Lists</Menu.Item>
-                    <Menu.Item key="4" onClick={() => navigate('/Dietitians')}>Dietitians</Menu.Item>
-                    <Menu.Item key="5" onClick={() => navigate('/Trainers')}>Trainers</Menu.Item>
-                    <Menu.Item key="6" onClick={showLogoutConfirm}>Logout</Menu.Item>
-        </Menu>
-      </Sider>
+     
       <Layout>
         <Content style={{ margin: '16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
@@ -47,7 +62,23 @@ const Dashboard = () => {
             <Header style={{ background: '#fff', padding: 0, textAlign: 'center', fontSize: '24px' }}>
               CREATE YOUR PLANS
             </Header>
-            <div> DİET LİSTS </div>
+            <div style={{ marginTop: 20, textAlign: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px', flexWrap: 'wrap' }}>
+                {dietLists.map((dietPlan, index) => (
+                  <div key={dietPlan.id} style={{ textAlign: 'center', width: '200px' }}>
+                    <div style={{ marginTop: '10px', fontWeight: 'bold' }}>
+                      {dietPlan.planName}
+                    </div>
+                    <div style={{ color: 'gray', fontSize: '14px' }}>
+                      {dietPlan.planDetails}
+                    </div>
+                    <div style={{ marginTop: '10px' }}>
+                      <h3> {dietPlan.createdAt}</h3> {/* Tarih bilgisi */}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>My Dashboard ©2024 Created with Ant Design</Footer>

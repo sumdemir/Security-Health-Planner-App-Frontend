@@ -8,16 +8,34 @@ export const getDietPlanChat = async (clientId, dietitianId) => {
     if (!clientId || !dietitianId) {
       throw new Error('Kullanıcı ID\'si veya Diyetisyen ID\'si eksik.');
     }
-    
+
     const response = await axios.post(`${API_BASE_URL}/getDietPlanDTO`, {
       clientId: bitirmeuserid,
       dietitianId: dietitianId,
     });
-    
+
     return response.data;
   } catch (error) {
     console.error('Diyet planı alınırken hata oluştu:', error.response?.data || error.message);
     throw new Error(error.response?.data || 'Diyet planı alınırken bir hata oluştu.');
+  }
+};
+
+export const getAllDietPlansForUser = async (clientId) => {
+  try {
+    const bitirmeuserid = parseInt(localStorage.getItem('bitirmeuserid'), 10);
+    if (!clientId) {
+      throw new Error('Kullanıcı ID\'si veya Antrenör ID\'si eksik.');
+    }
+
+    const response = await axios.get(`${API_BASE_URL}/getAllDietPlansForUser`, {
+      clientId: bitirmeuserid,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Spor planı alınırken hata oluştu:', error.response?.data || error.message);
+    throw new Error(error.response?.data || 'Spor planı alınırken bir hata oluştu.');
   }
 };
 

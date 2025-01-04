@@ -65,7 +65,7 @@ const Dashboard = () => {
 
             if (response?.status === 200) {
                 api.success('Profile updated successfully.');
-                navigate('/ChooseTrainers', { state: payload });
+                navigate('/Dashboard/ChooseTrainers', { state: payload });
                 const errorMsg = response?.data?.message || 'Profil güncellenirken bir hata oluştu.';
                 api.error(errorMsg);
             }
@@ -79,26 +79,13 @@ const Dashboard = () => {
 
     const handleSuccessOk = () => {
         setIsSuccessModalVisible(false);
-        navigate('/ChooseDietitians');
+        navigate('/Dashboard/ChooseDietitians');
     };
 
     return (
     
         <Layout style={{ minHeight: '100vh' }}>
-            <Sider>
-                <div style={{ color: 'white', textAlign: 'center', padding: '16px', fontSize: '18px' }}>
-                    Health Planner
-                </div>
-                {contextHolder}
-                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-                    <Menu.Item key="1" onClick={() => navigate('/Home')}>Home</Menu.Item>
-                              <Menu.Item key="2" onClick={() => navigate('/DietPlans')}>Recent Diet Lists</Menu.Item>
-                              <Menu.Item key="3" onClick={() => navigate('/DietPlans')}>Recent Sport Plan Lists</Menu.Item>
-                              <Menu.Item key="4" onClick={() => navigate('/Dietitians')}>Dietitians</Menu.Item>
-                              <Menu.Item key="5" onClick={() => navigate('/Trainers')}>Trainers</Menu.Item>
-                              <Menu.Item key="6" onClick={showLogoutConfirm}>Logout</Menu.Item>
-                </Menu>
-            </Sider>
+           
             <Layout>
                 <Content style={{ margin: '16px' }}>
                     <Breadcrumb style={{ margin: '16px 0' }}>

@@ -18,8 +18,9 @@ const Login = () => {
         throw new Error(response.error);
       }
       localStorage.setItem('authToken', response.token);
+      localStorage.setItem('userName', JSON.stringify(response.user));
       api.success('Login successful!');
-      navigate('/Home');
+      navigate('/Dashboard/Home');
     } catch (err) {
       api.error('Wrong password or email !');
     } finally {

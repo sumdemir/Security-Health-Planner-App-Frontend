@@ -1,12 +1,33 @@
-import React, { useState } from 'react';
-import { Layout, Menu, Breadcrumb, Modal } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Layout, Menu, Breadcrumb, Modal, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import diyetisyen1Image from '../../assets/images/diyetisyen1.jpg';
+import diyetisyen2Image from '../../assets/images/diyetisyen2.jpg';
+import diyetisyen3Image from '../../assets/images/diyetisyen3.jpg';
+import { getAllDietitians } from '../../api/dietitian';
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const Dashboard = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const navigate = useNavigate();
+  const [dietitians, setDietitians] = useState([]);
+    const [error, setError] = useState(null);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const navigate = useNavigate();
+      const [loading, setLoading] = useState(false);
+
+   useEffect(() => {
+      const fetchDietitians = async () => {
+        try {
+          const data = await getAllDietitians();
+          setDietitians(data);
+          console.log('Dietitians:', data);
+        } catch (err) {
+          setError(err.message);
+        }
+      };
+
+      fetchDietitians();
+  }, []);
 
   const showLogoutConfirm = () => {
     setIsModalVisible(true);
@@ -21,21 +42,11 @@ const Dashboard = () => {
     setIsModalVisible(false);
   };
 
+  const dietitianImages = [diyetisyen1Image, diyetisyen2Image, diyetisyen3Image];
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sider>
-        <div style={{ color: 'white', textAlign: 'center', padding: '16px', fontSize: '18px' }}>
-          Health Planner
-        </div>
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-          <Menu.Item key="1" onClick={() => navigate('/Home')}>Home</Menu.Item>
-                    <Menu.Item key="2" onClick={() => navigate('/DietPlans')}>Recent Diet Lists</Menu.Item>
-                    <Menu.Item key="3" onClick={() => navigate('/DietPlans')}>Recent Sport Plan Lists</Menu.Item>
-                    <Menu.Item key="4" onClick={() => navigate('/Dietitians')}>Dietitians</Menu.Item>
-                    <Menu.Item key="5" onClick={() => navigate('/Trainers')}>Trainers</Menu.Item>
-                    <Menu.Item key="6" onClick={showLogoutConfirm}>Logout</Menu.Item>
-        </Menu>
-      </Sider>
+     
       <Layout>
         <Content style={{ margin: '16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
@@ -45,9 +56,30 @@ const Dashboard = () => {
 
           <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
             <Header style={{ background: '#fff', padding: 0, textAlign: 'center', fontSize: '24px' }}>
-              CREATE YOUR PLANS
+              OUR DIETITIANS
             </Header>
-            <div> DİETİTİANS </div>
+            <div style={{ marginTop: 20, textAlign: 'center' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px', flexWrap: 'wrap' }}>
+                {dietitians.map((dietitian, index) => (
+                  <div key={dietitian.id} style={{ textAlign: 'center', width: '200px' }}>
+                    <img
+                      src={dietitianImages[index % dietitianImages.length]}
+                      alt={`Dietitian ${index + 1}`}
+                      style={{ width: '200px', height: '200px', borderRadius: '50%' }}
+                    />
+                    <div style={{ marginTop: '10px', fontWeight: 'bold' }}>
+                      {dietitian.firstName} {dietitian.lastName}
+                    </div>
+                    <div style={{ color: 'gray', fontSize: '14px' }}>
+                      {dietitian.specialization}
+                    </div>
+                    <div style={{ marginTop: '10px' }}>
+                     <h3> {dietitian.email}</h3>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>My Dashboard ©2024 Created with Ant Design</Footer>

@@ -28,6 +28,8 @@ export const authenticate = async (credentials) => {
     console.log('response:', response);
     localStorage.setItem('authToken', response.data.token);
     localStorage.setItem('bitirmeuserid', response.data.userid);
+    localStorage.setItem('userFirstName', response.data.firstname);
+    localStorage.setItem('userLastName', response.data.lastname);
     return response.data;
   } catch (error) {
     console.error('Authentication failed:', error.response?.data || error.message);
