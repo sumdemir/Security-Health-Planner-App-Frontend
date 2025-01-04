@@ -87,7 +87,7 @@ const Sidebar = () => {
       {/* Avatar ve Kullanıcı Bilgisi */}
       <div style={{ textAlign: 'center', marginBottom: '16px' }}>
         <Avatar
-          size={120}
+          size={100}
           icon={<UserOutlined />}
           style={{
             marginBottom: '16px',
