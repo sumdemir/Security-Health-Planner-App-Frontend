@@ -63,7 +63,7 @@ const Login = () => {
           </div>
 
           <div className="d-flex justify-content-center w-100 mt-3 center"
-          style={{ marginTop: '16px', textAlign: 'center', }}>
+          style={{ marginTop: '16px', textAlign: 'center' }}>
             <a href="/Register">Do not you have an account?</a>
           </div>
         </Form.Item>

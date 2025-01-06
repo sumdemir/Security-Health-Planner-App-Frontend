@@ -56,7 +56,6 @@ const Dashboard = () => {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      
       <Layout>
         <Content style={{ margin: '16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
@@ -69,54 +68,76 @@ const Dashboard = () => {
               padding: 24,
               background: '#fff',
               minHeight: 360,
-              alignItems: 'center',
-              justifyContent: 'center',
               display: 'flex',
-              flexDirection: 'column',
-              flexWrap: 'nowrap',
+              flexDirection: 'row', // Yatay düzen
+              gap: '40px', // Elemanlar arasında boşluk
+              justifyContent: 'center',
             }}
           >
-            <div>
+            {/* Diet Plan Bölgesi */}
+            <div
+              style={{
+                textAlign: 'center',
+                display: 'flex',
+                flexDirection: 'column', // Dikey düzen
+                alignItems: 'center',
+              }}
+            >
               <Header
                 style={{
                   background: '#fff',
                   padding: 0,
-                  textAlign: 'center',
                   fontSize: '24px',
                   marginBottom: '20px',
                 }}
               >
-                CREATE YOUR PLANS
+                CREATE DIET PLAN
               </Header>
+              <img
+                src={dietImage}
+                alt="Diet Plan"
+                style={{
+                  width: '200px',
+                  height: '260px',
+                  marginBottom: '20px',
+                }}
+              />
+              <ConfigProvider
+                theme={{
+                  token: { buttonRadius: '8px' },
+                }}
+              >
+                <Button
+                  type="primary"
+                  size="large"
+                  icon={<AntDesignOutlined />}
+                  style={{ fontSize: '16px' }}
+                  onClick={() => navigate('/Dashboard/DietPlanning')}
+                >
+                  Create Diet Plan
+                </Button>
+              </ConfigProvider>
             </div>
-            {/* Diet Plan Resmi */}
-            <img
-              src={dietImage}
-              alt="Diet Plan"
-              style={{
-                width: '200px',
-                height: '260px',
-                marginBottom: '20px',
-              }}
-            />
 
-            {/* Butonlar */}
-            <ConfigProvider
-              theme={{
-                token: { buttonRadius: '8px' }, // Buton stili teması
+            {/* Gym Plan Bölgesi */}
+            <div
+              style={{
+                textAlign: 'center',
+                display: 'flex',
+                flexDirection: 'column', // Dikey düzen
+                alignItems: 'center',
               }}
             >
-              <Button
-                type="primary"
-                size="large"
-                icon={<AntDesignOutlined />}
-                style={{ marginBottom: '20px', fontSize: '16px' }}
-                onClick={() => navigate('/Dashboard/DietPlanning')}
+              <Header
+                style={{
+                  background: '#fff',
+                  padding: 0,
+                  fontSize: '24px',
+                  marginBottom: '20px',
+                }}
               >
-                Create Diet Plan
-              </Button>
-
-              {/* Gym Plan Resmi */}
+                CREATE TRAIN PLAN
+              </Header>
               <img
                 src={gymImage}
                 alt="Gym Plan"
@@ -126,21 +147,27 @@ const Dashboard = () => {
                   marginBottom: '20px',
                 }}
               />
-
-              <Button
-                type="primary"
-                size="large"
-                icon={<AntDesignOutlined />}
-                style={{ marginBottom: '20px', fontSize: '16px'  }}
-                onClick={() => navigate('/Dashboard/TrainingPlanning')}
-              
+              <ConfigProvider
+                theme={{
+                  token: { buttonRadius: '8px' },
+                }}
               >
-                Create Train Plan
-              </Button>
-            </ConfigProvider>
+                <Button
+                  type="primary"
+                  size="large"
+                  icon={<AntDesignOutlined />}
+                  style={{ fontSize: '16px' }}
+                  onClick={() => navigate('/Dashboard/TrainingPlanning')}
+                >
+                  Create Train Plan
+                </Button>
+              </ConfigProvider>
+            </div>
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>My Dashboard ©2024 Created with Ant Design</Footer>
+        <Footer style={{ textAlign: 'center' }}>
+          My Dashboard ©2024 Created with Ant Design
+        </Footer>
       </Layout>
 
       {/* Logout Confirmation Modal */}
@@ -155,6 +182,8 @@ const Dashboard = () => {
         <p>Are you sure you want to log out?</p>
       </Modal>
     </Layout>
+
+
   );
 };
 
