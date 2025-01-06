@@ -3,6 +3,7 @@ import { Layout, Menu, Breadcrumb, Modal, Button, Spin } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import antrenor1Image from '../../assets/images/antrenor1.jpg';
 import antrenor2Image from '../../assets/images/antrenor2.jpg';
+import antrenor3Image from '../../assets/images/antrenor3.jpg';
 import {getAllTrainers} from '../../api/trainer';
 import { getTrainingPlanChat } from '../../api/trainingPlan';
 
@@ -61,7 +62,7 @@ const Dashboard = () => {
     }
   };
 
-  const antrenorImages = [antrenor1Image, antrenor2Image];
+  const antrenorImages = [antrenor1Image, antrenor2Image, antrenor3Image];
 
   return (
     <Layout style={{ minHeight: '100vh' }}>

@@ -1,32 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Menu, Breadcrumb, Modal, Button } from 'antd';
+import { PhoneOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import diyetisyen1Image from '../../assets/images/diyetisyen1.jpg';
 import diyetisyen2Image from '../../assets/images/diyetisyen2.jpg';
 import diyetisyen3Image from '../../assets/images/diyetisyen3.jpg';
 import { getAllDietitians } from '../../api/dietitian';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Footer } = Layout;
 
 const Dashboard = () => {
   const [dietitians, setDietitians] = useState([]);
-    const [error, setError] = useState(null);
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const navigate = useNavigate();
-      const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const navigate = useNavigate();
 
-   useEffect(() => {
-      const fetchDietitians = async () => {
-        try {
-          const data = await getAllDietitians();
-          setDietitians(data);
-          console.log('Dietitians:', data);
-        } catch (err) {
-          setError(err.message);
-        }
-      };
+  useEffect(() => {
+    const fetchDietitians = async () => {
+      try {
+        const data = await getAllDietitians();
+        setDietitians(data);
+        console.log('Dietitians:', data);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
 
-      fetchDietitians();
+    fetchDietitians();
   }, []);
 
   const showLogoutConfirm = () => {
@@ -46,7 +46,6 @@ const Dashboard = () => {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-     
       <Layout>
         <Content style={{ margin: '16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
@@ -74,8 +73,16 @@ const Dashboard = () => {
                       {dietitian.specialization}
                     </div>
                     <div style={{ marginTop: '10px' }}>
-                     <h3> {dietitian.email}</h3>
+                      <h3>{dietitian.email}</h3>
                     </div>
+                    <Button
+                      type="primary"
+                      icon={<PhoneOutlined />}
+                      style={{ marginTop: '10px' }}
+                      onClick={() => alert(`Contacting ${dietitian.firstName} ${dietitian.lastName}`)}
+                    >
+                      Contact
+                    </Button>
                   </div>
                 ))}
               </div>

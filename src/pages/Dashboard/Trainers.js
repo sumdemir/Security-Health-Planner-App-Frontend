@@ -3,7 +3,9 @@ import { Layout, Menu, Breadcrumb, Modal, Button, Spin } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import antrenor1Image from '../../assets/images/antrenor1.jpg';
 import antrenor2Image from '../../assets/images/antrenor2.jpg';
+import antrenor3Image from '../../assets/images/antrenor3.jpg';
 import {getAllTrainers} from '../../api/trainer';
+import { PhoneOutlined } from '@ant-design/icons';
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -42,7 +44,7 @@ const Dashboard = () => {
     setIsModalVisible(false);
   };
 
-    const antrenorImages = [antrenor1Image, antrenor2Image];
+    const antrenorImages = [antrenor1Image, antrenor2Image, antrenor3Image];
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -74,9 +76,14 @@ const Dashboard = () => {
                       {trainer.specialization}
                     </div>
                     <div style={{ marginTop: '10px' }}>
-                      <Button type="primary">
-                        Select
-                      </Button>
+                    <Button
+                      type="primary"
+                      icon={<PhoneOutlined />}
+                      style={{ marginTop: '10px' }}
+                      onClick={() => alert(`Contacting ${trainer.firstName} ${trainer.lastName}`)}
+                    >
+                      Contact
+                    </Button>
                     </div>
                   </div>
                 ))}
