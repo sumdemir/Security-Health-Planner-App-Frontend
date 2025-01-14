@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Form, Input, Button, message } from 'antd';
 import { authenticate } from '../api/auth';
 import { Link } from 'react-router-dom';
+import background from '../assets/images/loginphoto.jpg';
+
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -29,14 +31,48 @@ const Login = () => {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      {contextHolder}
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        backgroundImage: `url(${background})`, // Resim yolunu dinamik olarak kullanıyoruz
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        position: 'relative',
+      }}
+    >
+      {/* Yarı saydam arka plan katmanı */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)', // Yarı saydam siyah katman
+          zIndex: 1,
+        }}
+      ></div>
+
+      {/* Form alanı */}
       <Form
         name="login"
         layout="vertical"
         onFinish={handleLogin}
-        style={{ width: 300, padding: 24, border: '1px solid #ddd', borderRadius: '8px', background: '#fff' }}
+        style={{
+          width: 300,
+          padding: 24,
+          border: '1px solid #ddd',
+          borderRadius: '8px',
+          background: '#fff',
+          position: 'relative', // Üst katmanda olmasını sağlamak için
+          zIndex: 2,
+        }}
       >
+        {contextHolder}
         <h2 style={{ textAlign: 'center' }}>Login</h2>
         <Form.Item
           label="Email"
@@ -56,14 +92,20 @@ const Login = () => {
           <Button type="primary" htmlType="submit" block loading={loading}>
             Login
           </Button>
-          
-          <div className="d-flex justify-content-center w-100 mt-3 center"
-          style={{ marginTop: '16px' ,textAlign: 'center' }}>
-            <Link to={'/ForgotPassword'} style={{fontSize:'14px', fontWeight:'500'}}>Forgot your password?</Link>
+
+          <div
+            className="d-flex justify-content-center w-100 mt-3 center"
+            style={{ marginTop: '16px', textAlign: 'center' }}
+          >
+            <Link to={'/ForgotPassword'} style={{ fontSize: '14px', fontWeight: '500' }}>
+              Forgot your password?
+            </Link>
           </div>
 
-          <div className="d-flex justify-content-center w-100 mt-3 center"
-          style={{ marginTop: '16px', textAlign: 'center' }}>
+          <div
+            className="d-flex justify-content-center w-100 mt-3 center"
+            style={{ marginTop: '16px', textAlign: 'center' }}
+          >
             <a href="/Register">Do not you have an account?</a>
           </div>
         </Form.Item>

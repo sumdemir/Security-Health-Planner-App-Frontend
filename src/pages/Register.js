@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form, Input, Button, Select, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { register } from '../api/auth';
+import background from '../assets/images/login3photo.jpg';
 
 const { Option } = Select;
 
@@ -25,13 +26,37 @@ const Register = () => {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+     <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+            backgroundImage: `url(${background})`, // Resim yolunu dinamik olarak kullanıyoruz
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            position: 'relative',
+          }}
+        >
+          {/* Yarı saydam arka plan katmanı */}
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)', // Yarı saydam siyah katman
+              zIndex: 1,
+            }}
+          ></div>
       {contextHolder}
       <Form
         name="register"
         layout="vertical"
         onFinish={handleRegister}
-        style={{ width: 300, padding: 24, border: '1px solid #ddd', borderRadius: '8px', background: '#fff' }}
+        style={{ width: 300, padding: 24, border: '1px solid #ddd', borderRadius: '8px', background: '#fff', position: 'relative', zIndex: 2 }}
       >
         <h2 style={{ textAlign: 'center' }}>Register</h2>
         <Form.Item
@@ -69,8 +94,6 @@ const Register = () => {
         >
           <Select placeholder="Select a role">
             <Option value="CLIENT">CLIENT</Option>
-            <Option value="DIETITIAN">DIETITIAN</Option>
-            <Option value="TRAINER">TRAINER</Option>
           </Select>
         </Form.Item>
         <Form.Item>
