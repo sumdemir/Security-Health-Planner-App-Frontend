@@ -67,7 +67,7 @@ const Sidebar = () => {
     <Sider
       width={250}
       style={{
-        background: '#001529',
+        background: 'rgb(55, 53, 53)',
         color: '#fff',
         display: 'flex',
         flexDirection: 'column',
