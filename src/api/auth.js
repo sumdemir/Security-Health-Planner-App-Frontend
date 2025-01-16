@@ -30,6 +30,7 @@ export const authenticate = async (credentials) => {
     localStorage.setItem('bitirmeuserid', response.data.userid);
     localStorage.setItem('userFirstName', response.data.firstname);
     localStorage.setItem('userLastName', response.data.lastname);
+    localStorage.setItem('userEmail', response.data.email);
     return response.data;
   } catch (error) {
     console.error('Authentication failed:', error.response?.data || error.message);
