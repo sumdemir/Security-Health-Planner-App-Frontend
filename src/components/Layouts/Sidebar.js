@@ -157,15 +157,26 @@ const Sidebar = () => {
         >
           Trainers
         </Menu.Item>
+
         <Menu.Item
           key="6"
           icon={<ProfileOutlined />}
           style={{ fontSize: '16px' }}
+          onClick={() => navigate('/Dashboard/Achievements')}
+        >
+          Achievements
+        </Menu.Item>
+
+        <Menu.Item
+          key="7"
+          icon={<ProfileOutlined />}
+          style={{ fontSize: '16px' }}
+          onClick={() => navigate('/Dashboard/Profile')}
         >
           Profile
         </Menu.Item>
         <Menu.Item
-          key="7"
+          key="8"
           icon={<LogoutOutlined />}
           style={{ fontSize: '16px' }}
           onClick={showLogoutConfirm}
