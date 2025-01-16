@@ -112,7 +112,8 @@ const Profile = () => {
         >
           <Avatar
             size={100}
-            src={avatar || <UserOutlined />}
+            src={avatar || null}
+            icon={!avatar && <UserOutlined />}
             style={{
               marginBottom: 20,
             }}

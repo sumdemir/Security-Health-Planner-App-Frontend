@@ -103,7 +103,8 @@ const Sidebar = () => {
       <div style={{ textAlign: 'center', marginBottom: '16px' }}>
         <Avatar
           size={100}
-          src={avatar ? avatar : <UserOutlined />}  // Avatar varsa, onu göster
+          src={avatar ? avatar : <UserOutlined />}
+          icon={!avatar && <UserOutlined />} // Avatar varsa, onu göster
           style={{
             marginBottom: '16px',
             backgroundColor: '#87d068',
@@ -142,7 +143,7 @@ const Sidebar = () => {
         </Menu.Item>
         <Menu.Item
           key="2"
-          icon={<UserOutlined />}
+          icon={<ProfileOutlined />}
           style={{ fontSize: '16px' }}
           onClick={() => navigate('/Dashboard/DietPlans')}
         >
@@ -150,7 +151,7 @@ const Sidebar = () => {
         </Menu.Item>
         <Menu.Item
           key="3"
-          icon={<UserOutlined />}
+          icon={<ProfileOutlined />}
           style={{ fontSize: '16px' }}
           onClick={() => navigate('/Dashboard/TrainingPlans')}
         >
@@ -158,7 +159,7 @@ const Sidebar = () => {
         </Menu.Item>
         <Menu.Item
           key="4"
-          icon={<SettingOutlined />}
+          icon={<UserOutlined />}
           style={{ fontSize: '16px' }}
           onClick={() => navigate('/Dashboard/Dietitians')}
         >
@@ -166,7 +167,7 @@ const Sidebar = () => {
         </Menu.Item>
         <Menu.Item
           key="5"
-          icon={<SettingOutlined />}
+          icon={<UserOutlined />}
           style={{ fontSize: '16px' }}
           onClick={() => navigate('/Dashboard/Trainers')}
         >
@@ -184,7 +185,7 @@ const Sidebar = () => {
 
         <Menu.Item
           key="7"
-          icon={<ProfileOutlined />}
+          icon={<SettingOutlined />}
           style={{ fontSize: '16px' }}
           onClick={() => navigate('/Dashboard/Profile')}
         >
