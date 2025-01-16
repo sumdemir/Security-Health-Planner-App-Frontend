@@ -16,12 +16,14 @@ const { Title, Text } = Typography;
 const Sidebar = () => {
   const [user, setUser] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [avatar, setAvatar] = useState(null);  // Avatar state'i eklendi
   const navigate = useNavigate();
 
   useEffect(() => {
     // LocalStorage'dan kullanıcı bilgilerini al
     const userFirstName = localStorage.getItem('userFirstName');
     const userLastName = localStorage.getItem('userLastName');
+    const userAvatar = localStorage.getItem('userAvatar');  // Avatar bilgisi alındı
 
     if (userFirstName && userLastName) {
       setUser({
@@ -30,15 +32,25 @@ const Sidebar = () => {
       });
     }
 
+    if (userAvatar) {
+      setAvatar(userAvatar);  // Avatar'ı state'e kaydediyoruz
+    }
+
     // LocalStorage değişikliklerini dinle
     const handleStorageChange = () => {
       const updatedFirstName = localStorage.getItem('userFirstName');
       const updatedLastName = localStorage.getItem('userLastName');
+      const updatedAvatar = localStorage.getItem('userAvatar');
+      
       if (updatedFirstName && updatedLastName) {
         setUser({
           firstname: updatedFirstName,
           lastname: updatedLastName,
         });
+      }
+      
+      if (updatedAvatar) {
+        setAvatar(updatedAvatar);  // Avatar'ı güncelledik
       }
     };
 
@@ -55,7 +67,9 @@ const Sidebar = () => {
     localStorage.removeItem('authToken');
     localStorage.removeItem('userFirstName');
     localStorage.removeItem('userLastName');
+    localStorage.removeItem('userAvatar');  // Avatar'ı da sıfırladık
     setUser(null);
+    setAvatar(null);  // Avatar'ı da state'ten temizledik
     setIsModalVisible(false);
     navigate('/login');
   };
@@ -89,7 +103,7 @@ const Sidebar = () => {
       <div style={{ textAlign: 'center', marginBottom: '16px' }}>
         <Avatar
           size={100}
-          icon={<UserOutlined />}
+          src={avatar ? avatar : <UserOutlined />}  // Avatar varsa, onu göster
           style={{
             marginBottom: '16px',
             backgroundColor: '#87d068',
