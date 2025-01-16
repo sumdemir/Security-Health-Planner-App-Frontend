@@ -34,22 +34,22 @@ const Dashboard = () => {
   // Kilo verilerini tablo formatında hazırlamak
   const columns = [
     {
-      title: 'Plan Adı',
+      title: 'Plan Name',
       dataIndex: 'planName',
       key: 'planName',
     },
     {
-      title: 'Başlangıç Kilosu',
+      title: 'Start Weight',
       dataIndex: 'startWeight',
       key: 'startWeight',
     },
     {
-      title: 'Hedef Kilo',
+      title: 'Target Weight',
       dataIndex: 'targetWeight',
       key: 'targetWeight',
     },
     {
-      title: 'Kilo Değişimi',
+      title: 'Weight Change',
       dataIndex: 'weightChange',
       key: 'weightChange',
       render: (text, record) => (
@@ -57,7 +57,7 @@ const Dashboard = () => {
       ),
     },
     {
-      title: 'Plan Detayları',
+      title: 'Plan Details',
       dataIndex: 'planDetails',
       key: 'planDetails',
       render: (text) => (
@@ -108,7 +108,7 @@ const Dashboard = () => {
                 dataSource={dataSource}
                 pagination={false}
                 bordered
-                title={() => 'Kilo Değişim ve Plan Detayları Tablosu'}
+                title={() => 'Achievements Table'}
               />
             </div>
           </div>
