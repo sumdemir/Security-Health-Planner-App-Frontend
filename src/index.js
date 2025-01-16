@@ -8,12 +8,12 @@ import { ConfigProvider } from 'antd';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-  <React.StrictMode>
+  //<React.StrictMode>
     <ConfigProvider wave={{ disabled: true }}>
       
       <App />
     </ConfigProvider>
-  </React.StrictMode>
+ // </React.StrictMode>
 );
 
 reportWebVitals();

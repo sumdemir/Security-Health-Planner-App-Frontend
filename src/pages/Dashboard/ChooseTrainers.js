@@ -5,7 +5,7 @@ import antrenor1Image from '../../assets/images/antrenor1.jpg';
 import antrenor2Image from '../../assets/images/antrenor2.jpg';
 import antrenor3Image from '../../assets/images/antrenor3.jpg';
 import {getAllTrainers} from '../../api/trainer';
-import { getTrainingPlanChat } from '../../api/trainingPlan';
+
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -52,9 +52,9 @@ const Dashboard = () => {
         throw new Error('Kullanıcı ID\'si (bitirmeuserid) bulunamadı.');
       }
       console.log(`Seçilen antrenör idsi: ${trainerId}`);
-      const response = await getTrainingPlanChat(bitirmeuserid, trainerId);
+     // const response = await getTrainingPlanChat(bitirmeuserid, trainerId);
       localStorage.setItem('trainerId', trainerId);
-      console.log('Spor Plan Response:', response);
+     // console.log('Spor Plan Response:', response);
       setLoading(false);
       navigate('/Dashboard/TrainingPlanResponse'); 
     } catch (error) {

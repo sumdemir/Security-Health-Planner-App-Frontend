@@ -5,7 +5,7 @@ import diyetisyen1Image from '../../assets/images/diyetisyen1.jpg';
 import diyetisyen2Image from '../../assets/images/diyetisyen2.jpg';
 import diyetisyen3Image from '../../assets/images/diyetisyen3.jpg';
 import { getAllDietitians } from '../../api/dietitian';
-import { getDietPlanChat } from '../../api/dietPlan';
+
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -51,9 +51,9 @@ const Dashboard = () => {
         throw new Error('Kullanıcı ID\'si (bitirmeuserid) bulunamadı.');
       }
       console.log(`Seçilen diyetisyen idsi: ${dietitianId}`);
-      const response = await getDietPlanChat(bitirmeuserid, dietitianId);
+     // const response = await getDietPlanChat(bitirmeuserid, dietitianId);
       localStorage.setItem('dietitianId', dietitianId);
-      console.log('Diet Plan Response:', response);
+     // console.log('Diet Plan Response:', response);
       setLoading(false);
       navigate('/Dashboard/DietPlanResponse');
     } catch (error) {

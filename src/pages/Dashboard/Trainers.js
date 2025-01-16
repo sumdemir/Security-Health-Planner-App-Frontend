@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import antrenor1Image from '../../assets/images/antrenor1.jpg';
 import antrenor2Image from '../../assets/images/antrenor2.jpg';
 import antrenor3Image from '../../assets/images/antrenor3.jpg';
-import {getAllTrainers} from '../../api/trainer';
+import { getAllTrainers } from '../../api/trainer';
 import { PhoneOutlined } from '@ant-design/icons';
 
 
@@ -12,24 +12,24 @@ const { Header, Content, Footer, Sider } = Layout;
 
 const Dashboard = () => {
   const [trainers, setTrainers] = useState([]);
-    const [error, setError] = useState(null);
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-      const fetchTrainers = async () => {
-        try {
-          const data = await getAllTrainers();
-          setTrainers(data);
-          console.log('Trainers:', data);
-        } catch (err) {
-          setError(err.message);
-        }
-      };
-  
-      fetchTrainers();
-    }, []);
+    const fetchTrainers = async () => {
+      try {
+        const data = await getAllTrainers();
+        setTrainers(data);
+        console.log('Trainers:', data);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    fetchTrainers();
+  }, []);
 
   const showLogoutConfirm = () => {
     setIsModalVisible(true);
@@ -44,11 +44,11 @@ const Dashboard = () => {
     setIsModalVisible(false);
   };
 
-    const antrenorImages = [antrenor1Image, antrenor2Image, antrenor3Image];
+  const antrenorImages = [antrenor1Image, antrenor2Image, antrenor3Image];
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-     
+
       <Layout>
         <Content style={{ margin: '16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
@@ -58,7 +58,7 @@ const Dashboard = () => {
 
           <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
             <Header style={{ background: '#fff', padding: 0, textAlign: 'center', fontSize: '24px' }}>
-              OUR TRAINERS
+              TRAINERS CONTACT PAGE
             </Header>
             <div style={{ marginTop: 20, textAlign: 'center' }}>
               <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px', flexWrap: 'wrap' }}>
@@ -76,14 +76,18 @@ const Dashboard = () => {
                       {trainer.specialization}
                     </div>
                     <div style={{ marginTop: '10px' }}>
-                    <Button
-                      type="primary"
-                      icon={<PhoneOutlined />}
-                      style={{ marginTop: '10px' }}
-                      onClick={() => alert(`Contacting ${trainer.firstName} ${trainer.lastName}`)}
-                    >
-                      Contact
-                    </Button>
+                      <Button
+                        type="primary"
+                        icon={<PhoneOutlined />}
+                        style={{ marginTop: '10px' }}
+                      >
+                        <a
+                          href={`mailto:${trainer.email}?subject=HEALTH PLANNER&body=Hi, ${trainer.firstName}`}
+                          style={{ color: 'white', textDecoration: 'none' }}
+                        >
+                          Contact
+                        </a>
+                      </Button>
                     </div>
                   </div>
                 ))}

@@ -30,9 +30,12 @@ const Dashboard = () => {
       if (!bitirmeuserid || !dietitianId) {
         throw new Error('Eksik ID\'ler!');
       }
+      
       const data = await getDietPlanChat(bitirmeuserid, dietitianId);
       console.log('Fetched Plan:', data);
+      
       setDietPlan(data);
+    
       setIsLoading(false); 
     } catch (err) {
       setError(err.message);

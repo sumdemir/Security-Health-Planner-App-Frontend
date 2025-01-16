@@ -55,7 +55,7 @@ const Dashboard = () => {
 
           <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
             <Header style={{ background: '#fff', padding: 0, textAlign: 'center', fontSize: '24px' }}>
-              OUR DIETITIANS
+              DIETITIANS CONTACT PAGE
             </Header>
             <div style={{ marginTop: 20, textAlign: 'center' }}>
               <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px', flexWrap: 'wrap' }}>
@@ -72,19 +72,22 @@ const Dashboard = () => {
                     <div style={{ color: 'gray', fontSize: '14px' }}>
                       {dietitian.specialization}
                     </div>
-                    <div style={{ marginTop: '10px' }}>
-                      <h3>{dietitian.email}</h3>
-                    </div>
+
                     <Button
                       type="primary"
                       icon={<PhoneOutlined />}
                       style={{ marginTop: '10px' }}
-                      onClick={() => alert(`Contacting ${dietitian.firstName} ${dietitian.lastName}`)}
                     >
-                      Contact
+                      <a
+                        href={`mailto:${dietitian.email}?subject=HEALTH PLANNER&body=Hi, ${dietitian.firstName}`}
+                        style={{ color: 'white', textDecoration: 'none' }}
+                      >
+                        Contact
+                      </a>
                     </Button>
                   </div>
                 ))}
+
               </div>
             </div>
           </div>
