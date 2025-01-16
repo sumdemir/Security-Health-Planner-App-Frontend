@@ -17,7 +17,9 @@ const Register = () => {
     try {
       const response = await register(values);
       api.success('Registration successful!');
-      navigate('/Login');
+      setTimeout(() => {
+        navigate('/Login');
+      }, 1500);
     } catch (err) {
       api.error(err.message || 'Registration failed!');
     } finally {
@@ -26,37 +28,44 @@ const Register = () => {
   };
 
   return (
-     <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100vh',
-            backgroundImage: `url(${background})`, // Resim yolunu dinamik olarak kullanıyoruz
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            position: 'relative',
-          }}
-        >
-          {/* Yarı saydam arka plan katmanı */}
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              backgroundColor: 'rgba(0, 0, 0, 0.5)', // Yarı saydam siyah katman
-              zIndex: 1,
-            }}
-          ></div>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        backgroundImage: `url(${background})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        position: 'relative',
+      }}
+    >
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          zIndex: 1,
+        }}
+      ></div>
       {contextHolder}
       <Form
         name="register"
         layout="vertical"
         onFinish={handleRegister}
-        style={{ width: 300, padding: 24, border: '1px solid #ddd', borderRadius: '8px', background: '#fff', position: 'relative', zIndex: 2 }}
+        style={{
+          width: 300,
+          padding: 24,
+          border: '1px solid #ddd',
+          borderRadius: '8px',
+          background: '#fff',
+          position: 'relative',
+          zIndex: 2,
+        }}
       >
         <h2 style={{ textAlign: 'center' }}>Register</h2>
         <Form.Item

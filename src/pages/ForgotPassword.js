@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { forgotPassword, updatePassword } from '../api/auth';
-import { message } from 'antd';
-import { LockOutlined } from '@ant-design/icons';
+import { forgotPassword, updatePassword } from "../api/auth";
+import { message } from "antd";
+import { LockOutlined } from "@ant-design/icons";
 
 const ForgotPassword = () => {
   const [step, setStep] = useState(1);
@@ -59,7 +59,7 @@ const ForgotPassword = () => {
   return (
     <div
       style={{
-        backgroundColor: "#f5f5f5", // Gri arka plan
+        backgroundColor: "#f5f5f5",
         height: "100vh",
         display: "flex",
         justifyContent: "center",
@@ -70,7 +70,7 @@ const ForgotPassword = () => {
       <div
         style={{
           maxWidth: "400px",
-          backgroundColor: "white", // Beyaz arka plan
+          backgroundColor: "white",
           borderRadius: "8px",
           padding: "20px",
           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
@@ -81,7 +81,7 @@ const ForgotPassword = () => {
           <div style={{ marginBottom: "20px", position: "relative" }}>
             <div
               style={{
-                backgroundColor: "#007BFF", // Mavi arka plan
+                backgroundColor: "#007BFF",
                 borderRadius: "50%",
                 width: "50px",
                 height: "50px",
@@ -95,9 +95,7 @@ const ForgotPassword = () => {
             </div>
           </div>
         )}
-        <h2>
-          {step === 1 ? "Forgot Password" : "Update Password"}
-        </h2>
+        <h2>{step === 1 ? "Forgot Password" : "Update Password"}</h2>
         {step === 1 && (
           <form onSubmit={handleForgotPassword}>
             <div style={{ marginBottom: "10px" }}>
@@ -110,10 +108,11 @@ const ForgotPassword = () => {
                 required
                 style={{
                   width: "100%",
-                  padding: "8px",
+                  padding: "10px",
                   marginTop: "5px",
                   borderRadius: "4px",
                   border: "1px solid #ccc",
+                  boxSizing: "border-box",
                 }}
               />
             </div>
@@ -146,10 +145,11 @@ const ForgotPassword = () => {
                 required
                 style={{
                   width: "100%",
-                  padding: "8px",
+                  padding: "10px",
                   marginTop: "5px",
                   borderRadius: "4px",
                   border: "1px solid #ccc",
+                  boxSizing: "border-box",
                 }}
               />
             </div>
@@ -163,10 +163,11 @@ const ForgotPassword = () => {
                 required
                 style={{
                   width: "100%",
-                  padding: "8px",
+                  padding: "10px",
                   marginTop: "5px",
                   borderRadius: "4px",
                   border: "1px solid #ccc",
+                  boxSizing: "border-box",
                 }}
               />
             </div>
