@@ -20,6 +20,7 @@ import Register from './pages/Register';
 import Sidebar from './components/Layouts/Sidebar';
 import Achievements from './pages/Dashboard/Achievements';
 
+
 import './App.css';
 
 function App() {
@@ -87,7 +88,7 @@ function App() {
                     <Route path="DietPlanResponse" element={<DietPlanResponse />} />
                     <Route path="Profile" element={<Profile />} />
                     <Route path='TrainingPlans' element={<TrainingPlans />} />
-                    <Route path='Achievements' element={<Achievements />} />
+                    <Route path="Achievements" element={<Achievements />} />
                     
                   </Routes>
                 </div>

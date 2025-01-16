@@ -6,6 +6,7 @@ import {
   SettingOutlined,
   LogoutOutlined,
   ProfileOutlined,
+  TableOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
@@ -160,7 +161,7 @@ const Sidebar = () => {
 
         <Menu.Item
           key="6"
-          icon={<ProfileOutlined />}
+          icon={<TableOutlined />}
           style={{ fontSize: '16px' }}
           onClick={() => navigate('/Dashboard/Achievements')}
         >
