@@ -7,8 +7,10 @@ import {
   LogoutOutlined,
   ProfileOutlined,
   TableOutlined,
+  CalculatorOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { CalculatorOutlinedOutlined } from '@ant-design/icons';
 
 const { Sider } = Layout;
 const { Title, Text } = Typography;
@@ -174,17 +176,26 @@ const Sidebar = () => {
           Trainers
         </Menu.Item>
 
-        <Menu.Item
+        {/* <Menu.Item
           key="6"
           icon={<TableOutlined />}
           style={{ fontSize: '16px' }}
           onClick={() => navigate('/Dashboard/Achievements')}
         >
           Achievements
-        </Menu.Item>
+        </Menu.Item> */}
 
         <Menu.Item
           key="7"
+          icon={<CalculatorOutlined />}
+          style={{ fontSize: '16px' }}
+          onClick={() => navigate('/Dashboard/CalorieCalculator')}
+        >
+          Calorie Calculator
+        </Menu.Item>
+
+        <Menu.Item
+          key="8"
           icon={<SettingOutlined />}
           style={{ fontSize: '16px' }}
           onClick={() => navigate('/Dashboard/Profile')}
@@ -192,7 +203,7 @@ const Sidebar = () => {
           Profile
         </Menu.Item>
         <Menu.Item
-          key="8"
+          key="9"
           icon={<LogoutOutlined />}
           style={{ fontSize: '16px' }}
           onClick={showLogoutConfirm}
