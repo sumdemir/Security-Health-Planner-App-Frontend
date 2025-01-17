@@ -129,7 +129,7 @@ const Dashboard = () => {
               CALORIE CALCULATOR
             </Header>
 
-            <div style={{ margin: '20px 0' }}>
+            <div style={{ margin: '20px 0', textAlign: 'center' }}>
               <Input
                 placeholder="Enter food item (e.g., 1lb brisket and fries)"
                 value={query}
