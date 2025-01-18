@@ -96,6 +96,11 @@ const Dashboard = () => {
       key: 'fatTotalG',
     },
     {
+      title: 'Fat Saturated(g)',
+      dataIndex: 'fatSaturatedG',
+      key: 'fatSaturatedG',
+    },
+    {
       title: 'Carbohydrates (g)',
       dataIndex: 'carbohydratesTotalG',
       key: 'carbohydratesTotalG',

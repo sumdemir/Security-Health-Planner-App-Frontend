@@ -17,7 +17,8 @@ export const saveMealCalorie = async (mealCaloriesDTO) => {
       clientId: parseInt(clientId), // clientId'yi integer'a çeviriyoruz
       mealCaloriesDTO: {
         name: mealCaloriesDTO.name,
-        fatTotalG: parseFloat(mealCaloriesDTO.fatTotalG), // Sayı olarak gönderiyoruz
+        fatTotalG: parseFloat(mealCaloriesDTO.fatTotalG),
+        fatSaturatedG: parseFloat(mealCaloriesDTO.fatSaturatedG), // Sayı olarak gönderiyoruz
         carbohydratesTotalG: parseFloat(mealCaloriesDTO.carbohydratesTotalG), // Sayı olarak gönderiyoruz
         sodiumMg: parseFloat(mealCaloriesDTO.sodiumMg), // Sayı olarak gönderiyoruz
         potassiumMg: parseFloat(mealCaloriesDTO.potassiumMg), // Sayı olarak gönderiyoruz
