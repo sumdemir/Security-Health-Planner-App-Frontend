@@ -13,7 +13,6 @@ export const saveMealCalorie = async (mealCaloriesDTO) => {
     console.log('Client ID:', clientId);
     console.log('Meal Calorie Data:', mealCaloriesDTO);
 
-    // MealCaloriesRequest yapısını oluşturuyoruz
     const mealCaloriesRequest = {
       clientId: parseInt(clientId), // clientId'yi integer'a çeviriyoruz
       mealCaloriesDTO: {

@@ -22,6 +22,23 @@ const Dashboard = () => {
       .join(' ');
   };
 
+  // Helper function to convert snake_case to camelCase
+  const toCamelCase = (str) => {
+    return str.replace(/_([a-z])/g, (match, letter) => letter.toUpperCase());
+  };
+
+  // Function to transform entire data to camelCase
+  const transformToCamelCase = (data) => {
+    const transformedData = {};
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+        const camelCaseKey = toCamelCase(key);
+        transformedData[camelCaseKey] = data[key];
+      }
+    }
+    return transformedData;
+  };
+
   const fetchNutritionData = async () => {
     const apiKey = 'wIWQgdqWfkRMt3sDnDNDWQ==vGskbxy7UAIND2F4';
     const apiUrl = `https://api.api-ninjas.com/v1/nutrition?query=${query}`;
@@ -36,10 +53,13 @@ const Dashboard = () => {
       if (response.ok) {
         const data = await response.json();
         console.log('Fetched Nutrition Data:', data);
+
+        // Transforming fetched data into camelCase format
         const formattedData = data.map((item) => ({
-          ...item,
+          ...transformToCamelCase(item), // Transform each item to camelCase
           name: capitalizeWords(item.name), // Baş harf düzenlemesi
         }));
+
         const updatedData = [...nutritionData, ...formattedData];
         setNutritionData(updatedData);
         await saveAllNutritionData(formattedData);  // Veriyi kaydet
@@ -72,38 +92,38 @@ const Dashboard = () => {
     },
     {
       title: 'Fat (g)',
-      dataIndex: 'fat_total_g',
-      key: 'fat_total_g',
+      dataIndex: 'fatTotalG',
+      key: 'fatTotalG',
     },
     {
       title: 'Carbohydrates (g)',
-      dataIndex: 'carbohydrates_total_g',
-      key: 'carbohydrates_total_g',
+      dataIndex: 'carbohydratesTotalG',
+      key: 'carbohydratesTotalG',
     },
     {
       title: 'Sodium (mg)',
-      dataIndex: 'sodium_mg',
-      key: 'sodium_mg',
+      dataIndex: 'sodiumMg',
+      key: 'sodiumMg',
     },
     {
       title: 'Potassium (mg)',
-      dataIndex: 'potassium_mg',
-      key: 'potassium_mg',
+      dataIndex: 'potassiumMg',
+      key: 'potassiumMg',
     },
     {
       title: 'Cholesterol (mg)',
-      dataIndex: 'cholesterol_mg',
-      key: 'cholesterol_mg',
+      dataIndex: 'cholesterolMg',
+      key: 'cholesterolMg',
     },
     {
       title: 'Fiber (g)',
-      dataIndex: 'fiber_g',
-      key: 'fiber_g',
+      dataIndex: 'fiberG',
+      key: 'fiberG',
     },
     {
       title: 'Sugar (g)',
-      dataIndex: 'sugar_g',
-      key: 'sugar_g',
+      dataIndex: 'sugarG',
+      key: 'sugarG',
     },
   ];
 
