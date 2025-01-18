@@ -1,15 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Layout, Breadcrumb, Modal, Input, Button, Table, notification } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { saveMealCalorie } from '../../api/calculator';
+import { saveMealCalorie, getMealById } from '../../api/calculator';
+import { Alert } from 'antd';
 
 const { Header, Content, Footer } = Layout;
 
 const Dashboard = () => {
+  const [mealLists, setMealLists] = useState([]); // Mevcut tüm mealler
   const [query, setQuery] = useState('');
   const [nutritionData, setNutritionData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
+
+  // Sayfa yüklendiğinde mevcut mealleri al
+  useEffect(() => {
+    const fetchMealLists = async () => {
+      try {
+        const data = await getMealById(); // Veritabanındaki tüm mealleri getir
+        setMealLists(data); // Tabloda göstermek için state'e ata
+        console.log('Mevcut Mealler:', data);
+      } catch (err) {
+        console.error('Hata oluştu:', err.message);
+        notification.error({ message: 'Mevcut mealler alınırken bir hata oluştu.' });
+      }
+    };
+
+    fetchMealLists();
+  }, []);
 
   const handleInputChange = (e) => {
     setQuery(e.target.value);
@@ -22,17 +40,11 @@ const Dashboard = () => {
       .join(' ');
   };
 
-  // Helper function to convert snake_case to camelCase
-  const toCamelCase = (str) => {
-    return str.replace(/_([a-z])/g, (match, letter) => letter.toUpperCase());
-  };
-
-  // Function to transform entire data to camelCase
   const transformToCamelCase = (data) => {
     const transformedData = {};
     for (const key in data) {
       if (data.hasOwnProperty(key)) {
-        const camelCaseKey = toCamelCase(key);
+        const camelCaseKey = key.replace(/_([a-z])/g, (match, letter) => letter.toUpperCase());
         transformedData[camelCaseKey] = data[key];
       }
     }
@@ -52,21 +64,19 @@ const Dashboard = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log('Fetched Nutrition Data:', data);
 
-        // Transforming fetched data into camelCase format
         const formattedData = data.map((item) => ({
-          ...transformToCamelCase(item), // Transform each item to camelCase
-          name: capitalizeWords(item.name), // Baş harf düzenlemesi
+          ...transformToCamelCase(item),
+          name: capitalizeWords(item.name),
         }));
 
-        const updatedData = [...nutritionData, ...formattedData];
-        setNutritionData(updatedData);
-        await saveAllNutritionData(formattedData);  // Veriyi kaydet
-        localStorage.setItem('nutritionData', JSON.stringify(updatedData)); // LocalStorage'a kaydet
-        notification.success({ message: 'Nutrition data fetched successfully!' });
+        // Yeni mealleri kaydet ve tabloya ekle
+        await saveAllNutritionData(formattedData);
+        setMealLists((prev) => [...prev, ...formattedData]); // Tabloda güncelle
+
+        notification.success({ message: 'Yeni mealler başarıyla eklendi!' });
       } else {
-        throw new Error('Failed to fetch nutrition data.');
+        throw new Error('Besin bilgisi alınamadı.');
       }
     } catch (error) {
       notification.error({ message: error.message });
@@ -76,11 +86,10 @@ const Dashboard = () => {
   const saveAllNutritionData = async (data) => {
     try {
       for (const item of data) {
-        console.log('Saving meal calorie:', item); // Konsola meal verisi yazdır
-        await saveMealCalorie(item);  // clientId'yi localStorage'dan alarak veriyi kaydediyor
+        await saveMealCalorie(item);
       }
     } catch (error) {
-      notification.error({ message: 'Failed to save data to the database.', description: error.message });
+      notification.error({ message: 'Veritabanına kaydedilirken bir hata oluştu.', description: error.message });
     }
   };
 
@@ -166,6 +175,8 @@ const Dashboard = () => {
               CALORIE CALCULATOR
             </Header>
 
+
+
             <div style={{ margin: '20px 0', textAlign: 'center' }}>
               <Input
                 placeholder="Enter food item (e.g., 1lb brisket and fries)"
@@ -178,23 +189,34 @@ const Dashboard = () => {
               </Button>
             </div>
 
-            {nutritionData.length > 0 && (
+            {/* Tüm mealleri gösteren tablo */}
+            {mealLists.length > 0 && (
               <Table
-                dataSource={nutritionData}
+                dataSource={mealLists}
                 columns={columns}
                 rowKey="name"
                 pagination={false}
                 style={{ marginTop: '20px' }}
               />
             )}
+
+            <Alert
+              message="Supporting You on Your Diet Journey!"
+              description="Healthy eating habits are the foundation of a healthy life. This tool helps you understand the nutritional values of the food you consume, enabling you to make more informed choices. By tracking calories, protein, fat, and carbohydrate intake, you can achieve your goals more effectively. Every small step is the start of a big change!"
+              type="info"
+              showIcon
+              style={{ margin: '20px auto', maxWidth: '80%' }}
+            />
           </div>
+
+         
+
         </Content>
         <Footer style={{ textAlign: 'center' }}>
           My Dashboard ©2024 Created with Ant Design
         </Footer>
       </Layout>
 
-      {/* Logout Confirmation Modal */}
       <Modal
         title="Confirmation"
         visible={isModalVisible}

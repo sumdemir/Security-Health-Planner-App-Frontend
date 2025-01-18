@@ -10,9 +10,6 @@ export const saveMealCalorie = async (mealCaloriesDTO) => {
       throw new Error('Client ID not found in localStorage.');
     }
 
-    console.log('Client ID:', clientId);
-    console.log('Meal Calorie Data:', mealCaloriesDTO);
-
     const mealCaloriesRequest = {
       clientId: parseInt(clientId), // clientId'yi integer'a çeviriyoruz
       mealCaloriesDTO: {
@@ -35,11 +32,27 @@ export const saveMealCalorie = async (mealCaloriesDTO) => {
     // API isteğini gönderiyoruz
     const response = await axios.post(`${API_BASE_URL}/saveMealCaloriesDTO`, mealCaloriesRequest);
 
-    console.log('Response from server:', response.data);
-
     return response.data;
   } catch (error) {
     console.error('Error saving meal calorie:', error);
     throw error;
+  }
+};
+
+export const getMealById = async () => {
+  try {
+    const bitirmeuserid = parseInt(localStorage.getItem('bitirmeuserid'), 10);
+    if (!bitirmeuserid) {
+      throw new Error('Kullanıcı ID\'si eksik.');
+    }
+
+    const response = await axios.get(`${API_BASE_URL}/getAllMealsForUser`, {
+      params: { clientId: bitirmeuserid },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Diyet planları alınırken hata oluştu:', error.response?.data || error.message);
+    throw new Error(error.response?.data || 'Diyet planları alınırken bir hata oluştu.');
   }
 };
