@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Layout, Breadcrumb, Modal, Input, Button, Table, notification } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { saveMealCalorie } from '../../api/calculator';
 
 const { Header, Content, Footer } = Layout;
 
@@ -35,12 +36,14 @@ const Dashboard = () => {
 
       if (response.ok) {
         const data = await response.json();
+        console.log(data);
         const formattedData = data.map((item) => ({
           ...item,
           name: capitalizeWords(item.name), // Baş harf düzenlemesi
         }));
         const updatedData = [...nutritionData, ...formattedData];
         setNutritionData(updatedData);
+        await saveAllNutritionData(formattedData);
         localStorage.setItem('nutritionData', JSON.stringify(updatedData)); // LocalStorage'a kaydet
         notification.success({ message: 'Nutrition data fetched successfully!' });
       } else {
@@ -48,6 +51,17 @@ const Dashboard = () => {
       }
     } catch (error) {
       notification.error({ message: error.message });
+    }
+  };
+
+  const saveAllNutritionData = async (data) => {
+    const clientId = 123; // Örnek olarak bir clientId, bunu dinamik yapabilirsiniz.
+    try {
+      for (const item of data) {
+        await saveMealCalorie(item, clientId);
+      }
+    } catch (error) {
+      notification.error({ message: 'Failed to save data to the database.', description: error.message });
     }
   };
 
