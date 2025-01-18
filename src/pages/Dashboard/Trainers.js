@@ -75,7 +75,7 @@ const Dashboard = () => {
                     <div style={{ color: 'gray', fontSize: '14px' }}>
                       {trainer.specialization}
                     </div>
-                    <div style={{ marginTop: '10px' }}>
+                    <div >
                       <Button
                         type="primary"
                         icon={<PhoneOutlined />}

@@ -203,9 +203,9 @@ const Dashboard = () => {
             <Alert
               message="Supporting You on Your Diet Journey!"
               description="Healthy eating habits are the foundation of a healthy life. This tool helps you understand the nutritional values of the food you consume, enabling you to make more informed choices. By tracking calories, protein, fat, and carbohydrate intake, you can achieve your goals more effectively. Every small step is the start of a big change!"
-              type="info"
+              type="warning"
               showIcon
-              style={{ margin: '20px auto', maxWidth: '80%' }}
+              style={{ margin: '20px auto', maxWidth: '50%' }}
             />
           </div>
 
