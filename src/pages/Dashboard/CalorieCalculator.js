@@ -22,7 +22,6 @@ const Dashboard = () => {
       .join(' ');
   };
 
-
   const fetchNutritionData = async () => {
     const apiKey = 'wIWQgdqWfkRMt3sDnDNDWQ==vGskbxy7UAIND2F4';
     const apiUrl = `https://api.api-ninjas.com/v1/nutrition?query=${query}`;
@@ -36,14 +35,14 @@ const Dashboard = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
+        console.log('Fetched Nutrition Data:', data);
         const formattedData = data.map((item) => ({
           ...item,
           name: capitalizeWords(item.name), // Baş harf düzenlemesi
         }));
         const updatedData = [...nutritionData, ...formattedData];
         setNutritionData(updatedData);
-        await saveAllNutritionData(formattedData);
+        await saveAllNutritionData(formattedData);  // Veriyi kaydet
         localStorage.setItem('nutritionData', JSON.stringify(updatedData)); // LocalStorage'a kaydet
         notification.success({ message: 'Nutrition data fetched successfully!' });
       } else {
@@ -55,10 +54,10 @@ const Dashboard = () => {
   };
 
   const saveAllNutritionData = async (data) => {
-    const clientId = 123; // Örnek olarak bir clientId, bunu dinamik yapabilirsiniz.
     try {
       for (const item of data) {
-        await saveMealCalorie(item, clientId);
+        console.log('Saving meal calorie:', item); // Konsola meal verisi yazdır
+        await saveMealCalorie(item);  // clientId'yi localStorage'dan alarak veriyi kaydediyor
       }
     } catch (error) {
       notification.error({ message: 'Failed to save data to the database.', description: error.message });
@@ -71,7 +70,6 @@ const Dashboard = () => {
       dataIndex: 'name',
       key: 'name',
     },
-    
     {
       title: 'Fat (g)',
       dataIndex: 'fat_total_g',
