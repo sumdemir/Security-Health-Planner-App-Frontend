@@ -72,6 +72,7 @@ const Dashboard = () => {
               flexDirection: 'row', // Yatay düzen
               gap: '40px', // Elemanlar arasında boşluk
               justifyContent: 'center',
+              borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
             }}
           >
             {/* Diet Plan Bölgesi */}
@@ -87,11 +88,12 @@ const Dashboard = () => {
                 style={{
                   background: '#fff',
                   padding: 0,
-                  fontSize: '24px',
+                  fontSize: '28px',  // Büyütülmüş yazı boyutu
+                  fontWeight: 'bold',  // Kalın yazı tipi
                   marginBottom: '20px',
                 }}
               >
-                CREATE DIET PLAN
+                DIET PLAN
               </Header>
               <img
                 src={dietImage}
@@ -100,6 +102,7 @@ const Dashboard = () => {
                   width: '200px',
                   height: '260px',
                   marginBottom: '20px',
+                  borderRadius: '12px'
                 }}
               />
               <ConfigProvider
@@ -126,17 +129,19 @@ const Dashboard = () => {
                 display: 'flex',
                 flexDirection: 'column', // Dikey düzen
                 alignItems: 'center',
+
               }}
             >
               <Header
                 style={{
                   background: '#fff',
                   padding: 0,
-                  fontSize: '24px',
+                  fontSize: '28px',  // Büyütülmüş yazı boyutu
+                  fontWeight: 'bold',  // Kalın yazı tipi
                   marginBottom: '20px',
                 }}
               >
-                CREATE TRAIN PLAN
+                GYM PLAN
               </Header>
               <img
                 src={gymImage}
@@ -145,6 +150,7 @@ const Dashboard = () => {
                   width: '200px',
                   height: '260px',
                   marginBottom: '20px',
+                  borderRadius: '12px'
                 }}
               />
               <ConfigProvider
@@ -159,7 +165,7 @@ const Dashboard = () => {
                   style={{ fontSize: '16px' }}
                   onClick={() => navigate('/Dashboard/TrainingPlanning')}
                 >
-                  Create Train Plan
+                  Create Gym Plan
                 </Button>
               </ConfigProvider>
             </div>

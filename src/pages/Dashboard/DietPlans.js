@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Breadcrumb, Modal, Card, Row, Col } from 'antd';
+import { Layout, Breadcrumb, Modal, Card, Row, Col, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { getAllDietPlansForUser } from '../../api/dietPlan';
+import { FileTextOutlined, CalendarOutlined, HeartTwoTone } from '@ant-design/icons';
 
 const { Header, Content, Footer } = Layout;
+const { Title } = Typography;
 
 const Dashboard = () => {
   const [dietLists, setDietLists] = useState([]);
@@ -53,30 +55,57 @@ const Dashboard = () => {
             <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
           </Breadcrumb>
 
-          <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-            <Header style={{ background: '#fff', padding: 0, textAlign: 'center', fontSize: '24px' }}>
-              RECENT DIET PLANS
-            </Header>
-            <div style={{ marginTop: 20, textAlign: 'center' }}>
-              <Row gutter={[16, 16]} justify="center">
+          
+        <div style={{ padding: 24, background: '#fff', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+          <Header style={{ background: 'transparent', textAlign: 'center' }}>
+            <Title level={2} style={{ color: '#000' }}>
+            <HeartTwoTone twoToneColor="#eb2f96" /> RECENT DIET PLANS 
+            </Title>
+          </Header>
+            <div style={{ marginTop: 20, textAlign: 'center', overflowX: 'auto', whiteSpace: 'nowrap' }}>
+              <Row style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 {dietLists.map((dietPlan) => (
-                  <Col key={dietPlan.id} xs={24} sm={12} md={8} lg={6}>
+                  <Col key={dietPlan.id} flex="0 0 auto">
                     <Card
-                      title={dietPlan.planName}
+                      title={
+                        <div style={{ textAlign: 'center', whiteSpace: 'normal' }}>
+                           <CalendarOutlined style={{ marginRight: 8, color: '#52c41a' }} />
+                           {dietPlan.planName}
+                          <div style={{ fontSize: '12px', color: 'gray' }}>
+                            {new Date(dietPlan.createdAt).toLocaleDateString()} - {new Date(dietPlan.createdAt).toLocaleTimeString()}
+                          </div>
+                        </div>
+                      }
                       bordered={true}
                       hoverable
                       style={{
-                        width: 300,
+                        width: '100%',
+                        maxWidth: '100%',
                         textAlign: 'left',
+                        whiteSpace: 'normal',
+                        wordWrap: 'break-word',
                       }}
                     >
-                      <p style={{ color: 'gray', fontSize: '14px' }}>{dietPlan.planDetails}</p>
-                      <p style={{ marginTop: '10px', fontWeight: 'bold' }}>Created At: {new Date(dietPlan.createdAt).toLocaleString()}</p>
+                      <div
+                        style={{
+
+                          maxHeight: '150px',  // Maksimum yükseklik ayarlandı
+                          overflowY: 'auto',   // Dikey scroll bar eklendi
+                          paddingRight: '10px', // Kaydırma çubuğundan dolayı içeriği sıkıştırmamak için padding eklendi
+                        }}
+                      >
+                        <p style={{ color: 'gray', fontSize: '14px', wordWrap: 'break-word', margin: 0 }}>
+                          {dietPlan.planDetails}
+                        </p>
+                      </div>
                     </Card>
                   </Col>
                 ))}
               </Row>
             </div>
+
+
+
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>My Dashboard ©2024 Created with Ant Design</Footer>

@@ -3,8 +3,10 @@ import { Layout, Breadcrumb, Modal, Input, Button, Table, notification } from 'a
 import { useNavigate } from 'react-router-dom';
 import { saveMealCalorie, getMealById } from '../../api/calculator';
 import { Alert } from 'antd';
+import { Typography } from 'antd';
 
 const { Header, Content, Footer } = Layout;
+const { Title } = Typography;
 
 const Dashboard = () => {
   const [mealLists, setMealLists] = useState([]); // Mevcut tüm mealler
@@ -163,17 +165,19 @@ const Dashboard = () => {
             <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
           </Breadcrumb>
 
-          <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-            <Header
-              style={{
-                background: '#fff',
-                padding: 0,
-                textAlign: 'center',
-                fontSize: '24px',
-              }}
-            >
-              CALORIE CALCULATOR
-            </Header>
+          <div style={{ padding: 24, background: '#fff', minHeight: 360, borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+          <Header
+  style={{
+    background: 'transparent',
+    textAlign: 'center',
+    padding: 0,
+  }}
+>
+  <Title level={2} style={{ color: '#000', fontSize: '24px' }}>
+    CALORIE CALCULATOR
+  </Title>
+</Header>
+
 
 
 

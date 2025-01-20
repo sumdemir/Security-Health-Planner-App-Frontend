@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Menu, Breadcrumb, Modal, Button, Spin } from 'antd';
+import { Layout, Breadcrumb, Modal, Button, Card, Row, Col, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import antrenor1Image from '../../assets/images/antrenor1.jpg';
 import antrenor2Image from '../../assets/images/antrenor2.jpg';
@@ -8,7 +8,9 @@ import { getAllTrainers } from '../../api/trainer';
 import { PhoneOutlined } from '@ant-design/icons';
 
 
+
 const { Header, Content, Footer, Sider } = Layout;
+const { Title } = Typography;
 
 const Dashboard = () => {
   const [trainers, setTrainers] = useState([]);
@@ -48,56 +50,39 @@ const Dashboard = () => {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-
-      <Layout>
-        <Content style={{ margin: '16px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
-          </Breadcrumb>
-
-          <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-            <Header style={{ background: '#fff', padding: 0, textAlign: 'center', fontSize: '24px' }}>
-              TRAINERS CONTACT PAGE
-            </Header>
-            <div style={{ marginTop: 20, textAlign: 'center' }}>
-              <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px', flexWrap: 'wrap' }}>
-                {trainers.map((trainer, index) => (
-                  <div key={trainer.id} style={{ textAlign: 'center', width: '200px' }}>
-                    <img
-                      src={antrenorImages[index % antrenorImages.length]}
-                      alt={`Trainer ${index + 1}`}
-                      style={{ width: '200px', height: '200px', borderRadius: '50%' }}
-                    />
-                    <div style={{ marginTop: '10px', fontWeight: 'bold' }}>
-                      {trainer.firstName} {trainer.lastName}
-                    </div>
-                    <div style={{ color: 'gray', fontSize: '14px' }}>
-                      {trainer.specialization}
-                    </div>
-                    <div >
-                      <Button
-                        type="primary"
-                        icon={<PhoneOutlined />}
-                        style={{ marginTop: '10px' }}
-                      >
-                        <a
-                          href={`mailto:${trainer.email}?subject=HEALTH PLANNER&body=Hi, ${trainer.firstName}`}
-                          style={{ color: 'white', textDecoration: 'none' }}
-                        >
-                          Contact
-                        </a>
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </Content>
-        <Footer style={{ textAlign: 'center' }}>My Dashboard ©2024 Created with Ant Design</Footer>
-      </Layout>
-
+      <Content style={{ margin: '16px' }}>
+        <Breadcrumb style={{ margin: '16px 0' }}>
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
+        </Breadcrumb>
+  
+        <div style={{ padding: 24, background: '#fff', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+          <Header style={{ background: 'transparent', textAlign: 'center' }}>
+            <Title level={2} style={{ color: '#000' }}>TRAINERS CONTACT PAGE</Title>
+          </Header>
+          <Row gutter={[16, 16]} justify="center">
+            {trainers.map((trainer, index) => (
+              <Col key={trainer.id} xs={24} sm={12} md={8} lg={6}>
+                <Card
+                  cover={<img src={antrenorImages[index % antrenorImages.length]} alt={`Trainer ${index + 1}`} style={{ borderRadius: '12px' }} />}
+                  bordered={false}
+                  style={{ borderRadius: '12px', textAlign: 'center' }}
+                >
+                  <Title level={4}>{trainer.firstName} {trainer.lastName}</Title>
+                  <p style={{ color: 'gray', fontSize: '14px' }}>{trainer.specialization}</p>
+                  <Button type="primary" icon={<PhoneOutlined />}>
+                    <a href={`mailto:${trainer.email}?subject=HEALTH PLANNER&body=Hi, ${trainer.firstName}`} style={{ color: 'white', textDecoration: 'none' }}>
+                      Contact
+                    </a>
+                  </Button>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </div>
+      </Content>
+      <Footer style={{ textAlign: 'center' }}>My Dashboard ©2024 Created with Ant Design</Footer>
+  
       {/* Logout Confirmation Modal */}
       <Modal
         title="Confirmation"
@@ -111,6 +96,7 @@ const Dashboard = () => {
       </Modal>
     </Layout>
   );
+  
 };
 
 export default Dashboard;

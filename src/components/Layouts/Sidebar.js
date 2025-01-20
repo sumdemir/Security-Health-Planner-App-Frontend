@@ -220,8 +220,9 @@ const Sidebar = () => {
         onCancel={handleCancel}
         okText="Yes"
         cancelText="No"
+        style={{ textAlign: 'center' }}
       >
-        <p>Are you sure you want to log out?</p>
+        <p >Are you sure you want to log out?</p>
       </Modal>
     </Sider>
   );

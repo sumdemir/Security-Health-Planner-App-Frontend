@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Breadcrumb, Modal, Card, Row, Col } from 'antd';
+import { Layout, Breadcrumb, Modal, Card, Row, Col, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { getAllTrainingPlansForUser } from '../../api/trainingPlan';
+import { FileTextOutlined, CalendarOutlined, SmileTwoTone} from '@ant-design/icons';
 
 const { Header, Content, Footer } = Layout;
+const { Title } = Typography;
 
 const Dashboard = () => {
   const [trainingLists, setTrainingLists] = useState([]);
@@ -21,9 +23,7 @@ const Dashboard = () => {
 
         const data = await getAllTrainingPlansForUser(bitirmeuserid);
         setTrainingLists(data);
-        console.log('All Diet Lists:', data);
       } catch (err) {
-        console.error('Hata oluştu:', err.message);
         setError(err.message);
       }
     };
@@ -40,54 +40,71 @@ const Dashboard = () => {
     navigate('/login');
   };
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Layout>
-        <Content style={{ margin: '16px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
-          </Breadcrumb>
+    <Layout style={{ minHeight: '100vh'}}>
+      <Content style={{ margin: '16px' }}>
+        <Breadcrumb style={{ margin: '16px 0' }}>
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
+        </Breadcrumb>
 
-          <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-            <Header style={{ background: '#fff', padding: 0, textAlign: 'center', fontSize: '24px' }}>
-              RECENT SPORT PROGRAMS
-            </Header>
-            <div style={{ marginTop: 20, textAlign: 'center' }}>
-              <Row gutter={[16, 16]} justify="center">
-                {trainingLists.map((trainingPlan) => (
-                  <Col key={trainingPlan.id} xs={24} sm={12} md={8} lg={6}>
-                    <Card
-                      title={trainingPlan.planName}
-                      bordered={true}
-                      hoverable
+        <div style={{ padding: 24, background: '#fff', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+          <Header style={{ background: 'transparent', textAlign: 'center' }}>
+            <Title level={2} style={{ color: '#000' }}>
+            <SmileTwoTone /> RECENT SPORT PROGRAMS
+            </Title>
+          </Header>
+          <div style={{ marginTop: 20, textAlign: 'center', overflowX: 'auto', whiteSpace: 'nowrap' }}>
+
+            <Row style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {trainingLists.map((trainingPlan) => (
+                <Col key={trainingPlan.id} flex="0 0 auto">
+                  <Card
+                    title={
+                      <div style={{ textAlign: 'center' }}>
+                        <CalendarOutlined style={{ marginRight: 8, color: '#52c41a' }} />
+                        {trainingPlan.planName}
+                        <div style={{ fontSize: '12px', color: 'gray' }}>
+                          {new Date(trainingPlan.createdAt).toLocaleDateString()} - {new Date(trainingPlan.createdAt).toLocaleTimeString()}
+                        </div>
+                      </div>
+                    }
+                    bordered={true}
+                    hoverable
+                    style={{
+                      width: '100%',
+                      maxWidth: '100%',
+                      textAlign: 'left',
+                      whiteSpace: 'normal',
+                      wordWrap: 'break-word',
+                    }}
+                  >
+                    <div
                       style={{
-                        width: 300,
-                        textAlign: 'left',
+
+                        maxHeight: '150px',  // Maksimum yükseklik ayarlandı
+                        overflowY: 'auto',   // Dikey scroll bar eklendi
+                        paddingRight: '10px', // Kaydırma çubuğundan dolayı içeriği sıkıştırmamak için padding eklendi
                       }}
                     >
-                      <p style={{ color: 'gray', fontSize: '14px' }}>{trainingPlan.planDetails}</p>
-                      <p style={{ marginTop: '10px', fontWeight: 'bold' }}>Created At: {new Date(trainingPlan.createdAt).toLocaleString()}</p>
-                    </Card>
-                  </Col>
-                ))}
-              </Row>
-            </div>
-          </div>
-        </Content>
-        <Footer style={{ textAlign: 'center' }}>My Dashboard ©2024 Created with Ant Design</Footer>
-      </Layout>
+                      <p style={{ color: 'gray', fontSize: '14px', textAlign: 'justify' }}>{trainingPlan.planDetails}</p>
+                    </div>
 
-      {/* Logout Confirmation Modal */}
+
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          </div>
+        </div>
+      </Content>
+      <Footer style={{ textAlign: 'center' }}>My Dashboard ©2024 Created with Ant Design</Footer>
+
       <Modal
-        title="Confirmation"
+        title={<><FileTextOutlined /> Confirmation</>}
         visible={isModalVisible}
         onOk={handleLogout}
-        onCancel={handleCancel}
+        onCancel={() => setIsModalVisible(false)}
         okText="Yes"
         cancelText="No"
       >

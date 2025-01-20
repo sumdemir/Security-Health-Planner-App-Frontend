@@ -86,6 +86,7 @@ const Profile = () => {
     <div style={{ paddingBottom: '50px', backgroundColor: '#ffffff' }}>
       <Card
         style={{
+          minHeight: '80vh',
           maxWidth: 700,
           margin: '20px auto',
           padding: '20px',
@@ -95,7 +96,7 @@ const Profile = () => {
           backgroundColor: '#ffffff',
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
         }}
-        title="Profile"
+        title="PROFILE"
         actions={[
           <Button type="primary" onClick={showPasswordModal}>
             Change Password
