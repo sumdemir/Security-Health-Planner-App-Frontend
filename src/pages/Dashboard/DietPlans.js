@@ -55,24 +55,44 @@ const Dashboard = () => {
             <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
           </Breadcrumb>
 
-          
-        <div style={{ padding: 24, background: '#fff', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-          <Header style={{ background: 'transparent', textAlign: 'center' }}>
-            <Title level={2} style={{ color: '#000' }}>
-            <HeartTwoTone twoToneColor="#eb2f96" /> RECENT DIET PLANS 
-            </Title>
-          </Header>
-            <div style={{ marginTop: 20, textAlign: 'center', overflowX: 'auto', whiteSpace: 'nowrap' }}>
-              <Row style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                {dietLists.map((dietPlan) => (
+          <div
+            style={{
+              padding: 24,
+              background: '#fff',
+              borderRadius: '8px',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+            }}
+          >
+            <Header style={{ background: 'transparent', textAlign: 'center' }}>
+              <Title level={2} style={{ color: '#000' }}>
+                <HeartTwoTone twoToneColor="#eb2f96" /> RECENT DIET PLANS
+              </Title>
+            </Header>
+            <div
+              style={{
+                marginTop: 20,
+                textAlign: 'center',
+                overflowX: 'auto',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              <Row
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '16px',
+                }}
+              >
+                {dietLists.map((dietPlan, index) => (
                   <Col key={dietPlan.id} flex="0 0 auto">
                     <Card
                       title={
                         <div style={{ textAlign: 'center', whiteSpace: 'normal' }}>
-                           <CalendarOutlined style={{ marginRight: 8, color: '#52c41a' }} />
-                           {dietPlan.planName}
+                          <CalendarOutlined style={{ marginRight: 8, color: '#52c41a' }} />
+                          {dietPlan.planName}
                           <div style={{ fontSize: '12px', color: 'gray' }}>
-                            {new Date(dietPlan.createdAt).toLocaleDateString()} - {new Date(dietPlan.createdAt).toLocaleTimeString()}
+                            {new Date(dietPlan.createdAt).toLocaleDateString()} -{' '}
+                            {new Date(dietPlan.createdAt).toLocaleTimeString()}
                           </div>
                         </div>
                       }
@@ -88,13 +108,19 @@ const Dashboard = () => {
                     >
                       <div
                         style={{
-
-                          maxHeight: '150px',  // Maksimum yükseklik ayarlandı
-                          overflowY: 'auto',   // Dikey scroll bar eklendi
-                          paddingRight: '10px', // Kaydırma çubuğundan dolayı içeriği sıkıştırmamak için padding eklendi
+                          maxHeight: dietLists.length === 1 ? 'none' : '150px', // Tek öğe varsa sınırsız yükseklik
+                          overflowY: dietLists.length === 1 ? 'visible' : 'auto', // Tek öğe varsa scroll bar olmasın
+                          paddingRight: dietLists.length === 1 ? '0' : '10px',
                         }}
                       >
-                        <p style={{ color: 'gray', fontSize: '14px', wordWrap: 'break-word', margin: 0 }}>
+                        <p
+                          style={{
+                            color: 'gray',
+                            fontSize: '14px',
+                            wordWrap: 'break-word',
+                            margin: 0,
+                          }}
+                        >
                           {dietPlan.planDetails}
                         </p>
                       </div>
@@ -103,12 +129,11 @@ const Dashboard = () => {
                 ))}
               </Row>
             </div>
-
-
-
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>My Dashboard ©2024 Created with Ant Design</Footer>
+        <Footer style={{ textAlign: 'center' }}>
+          My Dashboard ©2024 Created with Ant Design
+        </Footer>
       </Layout>
 
       {/* Logout Confirmation Modal */}
